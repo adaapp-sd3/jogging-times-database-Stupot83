@@ -1,3 +1,6 @@
+require('dotenv').config();
+const mongoose = require('mongoose');
+
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -33,6 +36,16 @@ app.set('view engine', 'handlebars');
 
 // create all the routes
 app.use(routes);
+
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
+mongoose.Promise = global.Promise;
+mongoose.connection
+  .on('connected', () => {
+    console.log(`Mongoose connection open on ${process.env.DATABASE}`);
+  })
+  .on('error', (err) => {
+    console.log(`Connection error: ${err.message}`);
+  });
 
 // start the app!
 app.listen(port, function() {

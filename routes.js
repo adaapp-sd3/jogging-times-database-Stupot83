@@ -40,7 +40,7 @@ routes.post('/create-account', function(req, res) {
   res.cookie('userId', userId);
 
   // redirect to the logged in page
-  res.redirect('/times');
+  res.redirect('/times');   
 });
 
 // show the sign-in page

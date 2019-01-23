@@ -6,6 +6,7 @@ var insertUser = db.prepare(
 );
 
 var selectUserById = db.prepare('SELECT * FROM user WHERE id = ?');
+var deleteUserById = db.prepare('DELETE FROM user WHERE id = ?')
 
 var selectUserByEmail = db.prepare('SELECT * FROM user WHERE email = ?');
 
@@ -38,6 +39,10 @@ class User {
     } else {
       return null;
     }
+  }
+
+  static delete(id) {
+    deleteUserById.run(id);
   }
 
   constructor(databaseRow) {
