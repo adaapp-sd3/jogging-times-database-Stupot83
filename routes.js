@@ -4,7 +4,7 @@ const routes = new express.Router();
 const saltRounds = 10;
 const mongoose = require('mongoose');
 const User = require('./models/User');
-const DataAccess = require('./models/dataAccess');
+const DataAccess = require('./dataAccess/dataAccess');
 
 function formatDateForHTML(date) {
   return new Date(date).toISOString().slice(0, -8);
