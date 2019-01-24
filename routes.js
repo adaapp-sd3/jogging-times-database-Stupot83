@@ -4,13 +4,14 @@ const routes = new express.Router();
 const saltRounds = 10;
 const mongoose = require('mongoose');
 const User = require('./models/User');
+const Time = require('./models/Time');
 const DataAccess = require('./dataAccess/dataAccess');
 
 function formatDateForHTML(date) {
   return new Date(date).toISOString().slice(0, -8);
 }
 
-routes.get('/', function (req, res) {
+routes.get('/', (req, res) => {
   if (req.cookies.userId) {
     res.redirect('/times');
   } else {
@@ -18,11 +19,11 @@ routes.get('/', function (req, res) {
   }
 });
 
-routes.get('/create-account', function (req, res) {
+routes.get('/create-account', (req, res) => {
   res.render('create-account.html');
 });
 
-routes.post('/create-account', function (req, res, next) {
+routes.post('/create-account', (req, res, next) => {
   var form = req.body;
   // TODO: add some validation in here to check
   var passwordHash = bcrypt.hashSync(form.password, saltRounds);
@@ -38,11 +39,11 @@ routes.post('/create-account', function (req, res, next) {
   });
 });
 
-routes.get('/sign-in', function (req, res) {
+routes.get('/sign-in', (req, res) => {
   res.render('sign-in.html');
 });
 
-routes.post('/sign-in', function (req, res, next) {
+routes.post('/sign-in', (req, res, next) => {
   var form = req.body;
 
   var searchObject = {
@@ -72,7 +73,7 @@ routes.post('/sign-in', function (req, res, next) {
 });
 
 // handle signing out
-routes.get('/sign-out', function (req, res) {
+routes.get('/sign-out', (req, res) => {
   // clear the user id cookie
   res.clearCookie('userId');
 
@@ -81,76 +82,61 @@ routes.get('/sign-out', function (req, res) {
 });
 
 // list all job times
-routes.get('/times', function (req, res, next) {
+routes.get('/times', (req, res, next) => {
 
   var searchObject = {
     _id: req.cookies.userId
   };
 
   DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
-    var totalDistance = 13.45;
-    var avgSpeed = 5.42;
-    var totalTime = 8.12322;
 
     res.render('list-times.html', {
       user: loggedInUser,
-      stats: {
-        totalDistance: totalDistance.toFixed(2),
-        totalTime: totalTime.toFixed(2),
-        avgSpeed: avgSpeed.toFixed(2)
-      },
-
-      // fake times: TODO: get the real jog times from the db
-      times: [{
-          id: 1,
-          startTime: '4:36pm 1/11/18',
-          duration: 12.23,
-          distance: 65.43,
-          avgSpeed: 5.34
-        },
-        {
-          id: 2,
-          startTime: '2:10pm 3/11/18',
-          duration: 67.4,
-          distance: 44.43,
-          avgSpeed: 0.66
-        },
-        {
-          id: 3,
-          startTime: '3:10pm 4/11/18',
-          duration: 67.4,
-          distance: 44.43,
-          avgSpeed: 0.66
-        }
-      ]
     });
   });
 });
 
 // show the create time form
-routes.get('/times/new', function (req, res) {
-  // this is hugely insecure. why?
-  var loggedInUser = User.findById(req.cookies.userId);
+routes.get('/times/new', (req, res, next) => {
+
+  var searchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
 
   res.render('create-time.html', {
     user: loggedInUser
   });
 });
+});
 
 // handle the create time form
-routes.post('/times/new', function (req, res) {
+routes.post('/times/new', (req, res, next) => {
   var form = req.body;
 
-  console.log('create time', form);
+  var time = new Time();
+  time.startTime = form.startTime;
+  time.distance = form.distance;
+  time.duration = form.duration;
 
+  DataAccess.insertNew(time, res, next, (data) => {
+    res.cookie('userId', data.id);
+    res.redirect('/times');
+  });
   // TODO: save the new time
-
-  res.redirect('/times');
 });
 
 // show the edit time form for a specific time
-routes.get('/times/:id', function (req, res) {
-  var timeId = req.params.id;
+routes.get('/times/_id', (req, res, next) => {
+
+  var searchObject = {
+    _id: req.cookies.timeId
+  };
+
+  DataAccess.findOne(Time, searchObject, res, next, (loggedInUser) => {
+
+  // var timeId = req.params.id;
   console.log('get time', timeId);
 
   // TODO: get the real time for this id from the db
@@ -165,11 +151,18 @@ routes.get('/times/:id', function (req, res) {
     time: jogTime
   });
 });
+});
 
 // handle the edit time form
-routes.post('/times/:id', function (req, res) {
-  var timeId = req.params.id;
+routes.post('/times/_id', (req, res, next) => {
+
   var form = req.body;
+
+  var searchObject = {
+    _id: req.cookies.timeId
+  };
+
+  DataAccess.findOne(Time, searchObject, res, next, (loggedInUser) => {
 
   console.log('edit time', {
     timeId: timeId,
@@ -180,10 +173,20 @@ routes.post('/times/:id', function (req, res) {
 
   res.redirect('/times');
 });
+});
 
 // handle deleteing the time
-routes.get('/times/:id/delete', function (req, res) {
-  var timeId = req.params.id;
+routes.get('/times/_id/delete', (req, res) => {
+
+  var searchObject = {
+    _id: req.cookies.timeId
+  };
+
+  DataAccess.delete(time, searchObject, res, next, (data) => {
+
+  });
+
+  // var timeId = req.params.id;
   console.log('delete time', timeId);
 
   // TODO: delete the time

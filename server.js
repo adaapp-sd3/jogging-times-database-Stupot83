@@ -1,6 +1,7 @@
 const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('./models/User');
+const Time = require('./models/Time');
 
 const express = require('express');
 const morgan = require('morgan');
