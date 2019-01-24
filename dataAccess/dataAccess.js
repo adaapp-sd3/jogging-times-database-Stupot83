@@ -13,6 +13,17 @@ module.exports.insertNew = (model, res, next, responseCallback) => {
   model.save(callback);
   };
 
+  module.exports.find = (model, searchObject, res, next, callback) => {
+    model.find(searchObject, (err, data) => {
+        if (err) {
+            next(err);
+        }
+        else {
+            callback(data);
+        }
+    });
+};
+
 module.exports.findOne = (model, searchObject, res, next, callback) => {
     model.findOne(searchObject, (err, data) => {
         if (err) {
@@ -24,13 +35,24 @@ module.exports.findOne = (model, searchObject, res, next, callback) => {
     });
   };
 
-  module.exports.delete = (model, searchObject, res, next) => {
+  module.exports.findOneAndModify = (model, searchObject, res, next, callback) => {
+    model.findOne(searchObject, (err, data) => {
+        if (err) {
+            next(err);
+        }
+        else {
+           callback(data);
+        }
+    });
+};
+
+  module.exports.delete = (model, searchObject, res, next, callback) => {
     model.remove(searchObject, err => {
         if (err) {
             next(err);
         }
         else {
-            res.send(true);
+            callback(data);
         }
     });
   };

@@ -25,7 +25,6 @@ routes.get('/create-account', (req, res) => {
 
 routes.post('/create-account', (req, res, next) => {
   var form = req.body;
-  // TODO: add some validation in here to check
   var passwordHash = bcrypt.hashSync(form.password, saltRounds);
 
   var user = new User();
@@ -72,32 +71,76 @@ routes.post('/sign-in', (req, res, next) => {
   });
 });
 
-// handle signing out
 routes.get('/sign-out', (req, res) => {
-  // clear the user id cookie
   res.clearCookie('userId');
-
-  // redirect to the login screen
   res.redirect('/sign-in');
 });
 
 // list all job times
 routes.get('/times', (req, res, next) => {
-
   var searchObject = {
     _id: req.cookies.userId
   };
 
   DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
+    var searchObject = {
+      timeId: req.params.timeId,
+    };
 
-    res.render('list-times.html', {
-      user: loggedInUser,
+    DataAccess.find(Time, searchObject, res, next, (times) => {
+      console.log({
+        loggedInUser,
+        times
+      });
+      res.render('list-times.html', {
+        user: loggedInUser,
+        times: times
+      });
     });
   });
 });
 
 // show the create time form
 routes.get('/times/new', (req, res, next) => {
+  var searchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
+
+    res.render('create-time.html', {
+      user: loggedInUser
+    });
+  });
+});
+
+// handle the create time form
+routes.post('/times/new', (req, res, next) => {
+  var form = req.body;
+  var userId;
+
+  var searchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
+    userId = loggedInUser._id;
+
+    var time = new Time();
+    time.startTime = form.startTime;
+    time.distance = form.distance;
+    time.duration = form.duration;
+    time.userId = userId;
+
+    DataAccess.insertNew(time, res, next, (data) => {
+      res.cookie('timeId', data.id);
+      res.redirect('/times');
+    });
+  });
+});
+
+// show the edit time form for a specific time
+routes.get('/times/:id', (req, res, next) => {
 
   var searchObject = {
     _id: req.cookies.userId
@@ -105,91 +148,43 @@ routes.get('/times/new', (req, res, next) => {
 
   DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
 
-  res.render('create-time.html', {
-    user: loggedInUser
+    var searchObject = {
+      timeId: req.params.timeId
+    };
+
+    DataAccess.findOne(Time, searchObject, res, next, (times) => {
+
+      res.render('edit-time.html', {
+        user: loggedInUser,
+        times: times
+      });
+    });
   });
-});
-});
-
-// handle the create time form
-routes.post('/times/new', (req, res, next) => {
-  var form = req.body;
-
-  var time = new Time();
-  time.startTime = form.startTime;
-  time.distance = form.distance;
-  time.duration = form.duration;
-
-  DataAccess.insertNew(time, res, next, (data) => {
-    res.cookie('userId', data.id);
-    res.redirect('/times');
-  });
-  // TODO: save the new time
-});
-
-// show the edit time form for a specific time
-routes.get('/times/_id', (req, res, next) => {
-
-  var searchObject = {
-    _id: req.cookies.timeId
-  };
-
-  DataAccess.findOne(Time, searchObject, res, next, (loggedInUser) => {
-
-  // var timeId = req.params.id;
-  console.log('get time', timeId);
-
-  // TODO: get the real time for this id from the db
-  var jogTime = {
-    id: timeId,
-    startTime: formatDateForHTML('2018-11-4 15:17'),
-    duration: 67.4,
-    distance: 44.43
-  };
-
-  res.render('edit-time.html', {
-    time: jogTime
-  });
-});
 });
 
 // handle the edit time form
 routes.post('/times/_id', (req, res, next) => {
-
   var form = req.body;
 
   var searchObject = {
-    _id: req.cookies.timeId
+    timeId: req.params.timeId
   };
 
-  DataAccess.findOne(Time, searchObject, res, next, (loggedInUser) => {
+  DataAccess.findOneAndModify(Time, searchObject, res, next, (times) => {
 
-  console.log('edit time', {
-    timeId: timeId,
-    form: form
+    res.redirect('/times');
   });
-
-  // TODO: edit the time in the db
-
-  res.redirect('/times');
-});
 });
 
-// handle deleteing the time
 routes.get('/times/_id/delete', (req, res) => {
 
   var searchObject = {
-    _id: req.cookies.timeId
+    timeId: req.params.timeId
   };
 
-  DataAccess.delete(time, searchObject, res, next, (data) => {
+  DataAccess.delete(Time, searchObject, res, next, (times) => {
 
   });
-
-  // var timeId = req.params.id;
-  console.log('delete time', timeId);
-
-  // TODO: delete the time
 
   res.redirect('/times');
 });
