@@ -25,6 +25,7 @@ routes.get('/create-account', (req, res) => {
 
 routes.post('/create-account', (req, res, next) => {
   var form = req.body;
+  console.log({form});
   var passwordHash = bcrypt.hashSync(form.password, saltRounds);
 
   var user = new User();
@@ -97,6 +98,20 @@ routes.get('/times', (req, res, next) => {
   });
 });
 
+routes.get('/user', (req, res, next) => {
+var form = req.body;
+console.log({form});
+
+  var userSearchObject = {
+    email: form.email
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+    console.log({loggedInUser});
+    res.send(loggedInUser);
+      });
+    });
+
 // show the create time form
 routes.get('/times/new', (req, res, next) => {
   var searchObject = {
@@ -116,9 +131,13 @@ routes.post('/times/new', (req, res, next) => {
   var form = req.body;
   var userId;
 
+  console.log({form});
+
   var searchObject = {
     _id: req.cookies.userId
   };
+
+  console.log({req});
 
   DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
     userId = loggedInUser._id;
