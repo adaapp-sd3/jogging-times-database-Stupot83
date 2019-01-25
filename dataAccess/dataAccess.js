@@ -58,13 +58,24 @@ module.exports.updateExisting = (mongooseObject, model, res, next, updateCallbac
     mongooseObject.findByIdAndUpdate(model._id, model, callback);
 };
 
-  module.exports.delete = (model, searchObject, res, next, callback) => {
-    model.remove(searchObject, err => {
+  module.exports.deleteOne = (model, searchObject, res, next, callback) => {
+    model.deleteOne(searchObject, err => {
         if (err) {
             next(err);
         }
         else {
-            callback(data);
+            callback();
+        }
+    });
+  };
+
+  module.exports.deleteMany = (model, searchObject, res, next, callback) => {
+    model.deleteMany(searchObject, err => {
+        if (err) {
+            next(err);
+        }
+        else {
+            callback();
         }
     });
   };

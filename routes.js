@@ -89,7 +89,6 @@ routes.get('/times', (req, res, next) => {
 
     DataAccess.find(Time, timeSearchObject, res, next, (times) => {
 
-
       res.render('list-times.html', {
         user: loggedInUser,
         times: times
@@ -163,7 +162,7 @@ routes.get('/times/:id', (req, res, next) => {
 });
 
 // handle the edit time form
-routes.post('/times/_id', (req, res, next) => {
+routes.post('/times/:id', (req, res, next) => {
   var form = req.body;
 
   var searchObject = {
@@ -181,17 +180,33 @@ routes.post('/times/_id', (req, res, next) => {
   });
 });
 
-routes.get('/times/_id/delete', (req, res) => {
+routes.get('/times/:id/delete', (req, res, next) => {
 
   var searchObject = {
-    timeId: req.params.timeId
+    _id: req.params.id
   };
 
-  DataAccess.delete(Time, searchObject, res, next, (times) => {
-
+  DataAccess.deleteOne(Time, searchObject, res, next, () => {
+    res.redirect('/times');
   });
+});
 
-  res.redirect('/times');
+routes.get('/delete-account', (req, res, next) => {
+
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.deleteOne(User, userSearchObject, res, next, () => {
+
+    var timeSearchObject = {
+      userId: req.cookies.userId
+    };
+
+    DataAccess.deleteMany(Time, timeSearchObject, res, next, () => {
+      res.redirect('/sign-in');
+    });
+  });
 });
 
 module.exports = routes;
