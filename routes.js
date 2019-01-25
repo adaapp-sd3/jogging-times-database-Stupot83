@@ -78,20 +78,18 @@ routes.get('/sign-out', (req, res) => {
 
 // list all job times
 routes.get('/times', (req, res, next) => {
-  var searchObject = {
+  var userSearchObject = {
     _id: req.cookies.userId
   };
 
-  DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
-    var searchObject = {
-      timeId: req.params.timeId,
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+    var timeSearchObject = {
+      userId: req.cookies.userId
     };
 
-    DataAccess.find(Time, searchObject, res, next, (times) => {
-      console.log({
-        loggedInUser,
-        times
-      });
+    DataAccess.find(Time, timeSearchObject, res, next, (times) => {
+
+
       res.render('list-times.html', {
         user: loggedInUser,
         times: times
@@ -132,8 +130,7 @@ routes.post('/times/new', (req, res, next) => {
     time.duration = form.duration;
     time.userId = userId;
 
-    DataAccess.insertNew(time, res, next, (data) => {
-      res.cookie('timeId', data.id);
+    DataAccess.insertNew(time, res, next, () => {
       res.redirect('/times');
     });
   });
@@ -142,21 +139,24 @@ routes.post('/times/new', (req, res, next) => {
 // show the edit time form for a specific time
 routes.get('/times/:id', (req, res, next) => {
 
-  var searchObject = {
+  var userSearchObject = {
     _id: req.cookies.userId
   };
 
-  DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-    var searchObject = {
-      timeId: req.params.timeId
+    var timeSearchObject = {
+      _id: req.params.id
     };
 
-    DataAccess.findOne(Time, searchObject, res, next, (times) => {
+    DataAccess.findOne(Time, timeSearchObject, res, next, (time) => {
+
+      var formattedStartTime = formatDateForHTML(time.startTime);
 
       res.render('edit-time.html', {
         user: loggedInUser,
-        times: times
+        time: time,
+        formattedStartTime: formattedStartTime
       });
     });
   });
@@ -167,12 +167,17 @@ routes.post('/times/_id', (req, res, next) => {
   var form = req.body;
 
   var searchObject = {
-    timeId: req.params.timeId
+    _id: req.params.id
   };
 
-  DataAccess.findOneAndModify(Time, searchObject, res, next, (times) => {
+  DataAccess.findOneAndModify(Time, searchObject, res, next, (time) => {
+    time.startTime = form.startTime;
+    time.distance = form.distance;
+    time.duration = form.duration;
 
-    res.redirect('/times');
+    DataAccess.updateExisting(Time, time, res, next, () => {
+      res.redirect('/times');
+    });
   });
 });
 

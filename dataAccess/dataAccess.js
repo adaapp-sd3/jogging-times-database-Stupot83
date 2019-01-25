@@ -46,6 +46,18 @@ module.exports.findOne = (model, searchObject, res, next, callback) => {
     });
 };
 
+module.exports.updateExisting = (mongooseObject, model, res, next, updateCallback) => {
+    const callback = err => {
+        if (err) {
+            next(err);
+        }
+        else {
+            updateCallback();
+        }
+    };
+    mongooseObject.findByIdAndUpdate(model._id, model, callback);
+};
+
   module.exports.delete = (model, searchObject, res, next, callback) => {
     model.remove(searchObject, err => {
         if (err) {
