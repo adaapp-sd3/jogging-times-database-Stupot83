@@ -9,13 +9,18 @@
     <link rel="stylesheet" href="/tailwind.css" />
   </head>
   <body>
+      <header class="fixed pin-x pin-t bg-purple shadow text-white">
+          <div class="mx-auto h-16 p-1 flex items-center justify-between" style="width: 1000px">
+            <h2>Jogger - Create Account</h2>
+          </div>
+        </header>
     <main class="h-screen flex flex-col items-center justify-center ">
       <form
-        class="m-4 shadow-lg rounded-lg overflow-hidden w-64"
+        class="m-4 shadow-lg rounded-lg overflow-hidden w-1/5"
         method="POST"
         action="/create-account"
       >
-        <h1 class="text-2xl bg-grey-lighter p-4">Create Account</h1>
+        <h1 class="text-2xl bg-grey-dark text-center text-white p-4">Create Account</h1>
 
         <label class="m-4 block">
           Name
@@ -59,7 +64,7 @@
 
         <button
           type="submit"
-          class="block w-auto rounded bg-purple text-white p-2 m-4 ml-auto"
+          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto"
         >
           Create Account →
         </button>
@@ -68,7 +73,7 @@
       <a
         href="/sign-in"
         class="block mt-8 text-purple-light no-underline hover:underline"
-        >Sign in</a
+        >Already have a Jogger account? Sign in here</a
       >
     </main>
   </body>

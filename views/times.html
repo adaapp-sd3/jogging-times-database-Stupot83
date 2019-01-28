@@ -2,39 +2,39 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Jog Times</title>
+    <title>Jogger</title>
 
     <!-- Tailwind.css is a CSS library. Read the docs here: -->
     <!-- https://tailwindcss.com/docs/what-is-tailwind -->
     <link rel="stylesheet" href="/tailwind.css" />
   </head>
-  <body class="bg-grey-lightest">
-    <header class="fixed pin-x pin-t bg-purple shadow text-white">
+  <body class="bg-grey">
+    <header class="fixed pin-x pin-t bg-green shadow text-white">
       <div
         class="mx-auto h-16 p-5 flex items-center justify-between"
         style="width: 1000px"
       >
-        <h2>Jog Times</h2>
+        <h2 class="p-4 uppercase bg-green-dark border border-white">Jogger: Jog Times</h2>
         <div>
           Signed in as {{ user.name }} ({{ user.email }})
           <a
             href="/sign-out"
-            class="text-white border border-white rounded p-2 no-underline hover:bg-purple-light ml-4"
+            class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
           >
             Sign Out
           </a>
           <a
-            href="/delete-account"
-            class="text-white border border-white rounded p-2 no-underline hover:bg-purple-light ml-4"
+            href="/user"
+            class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
           >
-            Delete Account
+            Launchpad
           </a>
         </div>
       </div>
     </header>
 
     <main
-      style="width: 800px"
+      style="width: 1000px; height: auto"
       class="mx-auto mt-16 pt-4 flex flex-col justify-center "
     >
       <section class="flex items-center">
@@ -80,7 +80,8 @@
       >
         <a
           href="/times/new"
-          class="flex-auto w-64 m-4 p-5 bg-purple-light shadow rounded-lg text-3xl text-white no-underline flex items-center justify-center text-center"
+          class="flex-auto w-64 m-4 p-5 bg-green-dark shadow rounded-lg text-3xl text-white 
+          no-underline flex items-center justify-center text-center hover:bg-green-darkest"
         >
           Add new time
         </a>

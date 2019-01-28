@@ -8,20 +8,26 @@
     <!-- https://tailwindcss.com/docs/what-is-tailwind -->
     <link rel="stylesheet" href="/tailwind.css" />
   </head>
-  <body class="bg-grey-lightest">
-    <header class="fixed pin-x pin-t bg-purple shadow text-white">
+  <body class="bg-grey">
+    <header class="fixed pin-x pin-t bg-green shadow text-white">
       <div
-        class="mx-auto h-16 p-4 flex items-center justify-between"
-        style="width: 800px"
+        class="mx-auto h-16 p-5 flex items-center justify-between"
+        style="width: 1000px"
       >
-        <h2><a href="/times" class="text-white no-underline">Jog Times</a></h2>
+        <h2 class="text-white uppercase no-underline p-4 bg-green-dark border border-white">Jogger - Add Time</h2>
         <div>
           Signed in as {{ user.name }} ({{ user.email }})
           <a
             href="/sign-out"
-            class="text-white border border-white rounded p-2 no-underline hover:bg-purple-light ml-4"
+            class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
           >
             Sign Out
+          </a>
+          <a
+            href="/user"
+            class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
+          >
+            Launchpad
           </a>
         </div>
       </div>
@@ -29,16 +35,16 @@
 
     <main class="h-screen flex flex-col items-center justify-center">
       <form
-        class="m-4 shadow-lg rounded-lg overflow-hidden w-64"
+        class="m-4 shadow-lg rounded-lg overflow-hidden w-64 bg-green"
         method="POST"
         action="/times/new"
       >
-        <h1 class="text-2xl bg-grey-lighter p-4">Add new time</h1>
+        <h1 class="text-2xl text-white bg-black text-center p-4">Add new time</h1>
 
         <label class="m-4 block">
           Date
           <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
+            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
             type="datetime-local"
             name="startTime"
             required
@@ -48,7 +54,7 @@
         <label class="m-4 block">
           Distance (km)
           <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
+            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
             type="number"
             name="distance"
             required
@@ -58,7 +64,7 @@
         <label class="m-4 block">
           Duration (hrs)
           <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
+            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
             type="number"
             name="duration"
             required
@@ -67,7 +73,7 @@
 
         <button
           type="submit"
-          class="block w-auto rounded bg-purple text-white p-2 m-4 ml-auto"
+          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-dark"
         >
           Create Time →
         </button>

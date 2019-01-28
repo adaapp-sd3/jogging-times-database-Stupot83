@@ -13,7 +13,7 @@ function formatDateForHTML(date) {
 
 routes.get('/', (req, res) => {
   if (req.cookies.userId) {
-    res.redirect('/times');
+    res.redirect('/user');
   } else {
     res.redirect('/sign-in');
   }
@@ -34,7 +34,7 @@ routes.post('/create-account', (req, res, next) => {
 
   DataAccess.insertNew(user, res, next, (data) => {
     res.cookie('userId', data.id);
-    res.redirect('/times');
+    res.redirect('/user');
   });
 });
 
@@ -57,7 +57,7 @@ routes.post('/sign-in', (req, res, next) => {
       });
       if (bcrypt.compareSync(form.password, user.password_hash)) {
         res.cookie('userId', user.id);
-        res.redirect('/times');
+        res.redirect('/user');
       } else {
         res.render('sign-in.html', {
           errorMessage: 'Email address and password do not match'
@@ -76,7 +76,21 @@ routes.get('/sign-out', (req, res) => {
   res.redirect('/sign-in');
 });
 
-// list all job times
+// user profile
+routes.get('/user', (req, res, next) => {
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+
+      res.render('user-profile.html', {
+        user: loggedInUser,
+      });
+  });
+});
+
+// list of jog times
 routes.get('/times', (req, res, next) => {
   var userSearchObject = {
     _id: req.cookies.userId
@@ -89,25 +103,13 @@ routes.get('/times', (req, res, next) => {
 
     DataAccess.find(Time, timeSearchObject, res, next, (times) => {
 
-      res.render('list-times.html', {
+      res.render('times.html', {
         user: loggedInUser,
         times: times
       });
     });
   });
 });
-
-routes.get('/user', (req, res, next) => {
-var form = req.body;
-
-  var userSearchObject = {
-    email: form.email
-  };
-
-  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
-    res.send(loggedInUser);
-      });
-    });
 
 // show the create time form
 routes.get('/times/new', (req, res, next) => {
@@ -128,13 +130,9 @@ routes.post('/times/new', (req, res, next) => {
   var form = req.body;
   var userId;
 
-  console.log({form});
-
   var searchObject = {
     _id: req.cookies.userId
   };
-
-  console.log({req});
 
   DataAccess.findOne(User, searchObject, res, next, (loggedInUser) => {
     userId = loggedInUser._id;
@@ -207,6 +205,19 @@ routes.get('/times/:id/delete', (req, res, next) => {
   });
 });
 
+routes.get('/account-maintenance', (req, res, next) => {
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+
+      res.render('account-maintenance.html', {
+        user: loggedInUser,
+      });
+  });
+});
+
 routes.get('/delete-account', (req, res, next) => {
 
   var userSearchObject = {
@@ -222,6 +233,23 @@ routes.get('/delete-account', (req, res, next) => {
     DataAccess.deleteMany(Time, timeSearchObject, res, next, () => {
       res.clearCookie('userId');
       res.redirect('/sign-in');
+    });
+  });
+});
+
+routes.get('/members', (req, res, next) => {
+
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+
+  DataAccess.find(User, {}, res, next, (members) => {
+      res.render('members.html', {
+        user: loggedInUser,
+        members: members
+      });
     });
   });
 });
