@@ -103,8 +103,18 @@ routes.get('/times', (req, res, next) => {
 
     DataAccess.find(Time, timeSearchObject, res, next, (times) => {
 
+      var totalDistance = times.reduce((previous, current) => previous + current.distance, 0);
+      var totalTime = times.reduce((previous, current) => previous + current.duration, 0);
+      var avgSpeed = totalDistance / totalTime;
+      avgSpeed = avgSpeed || 0;
+
       res.render('times.html', {
         user: loggedInUser,
+        stats: {
+          totalDistance: parseFloat(totalDistance).toFixed(2),
+          totalTime: parseFloat(totalTime).toFixed(2),
+          avgSpeed: parseFloat(avgSpeed).toFixed(2)
+        },
         times: times
       });
     });

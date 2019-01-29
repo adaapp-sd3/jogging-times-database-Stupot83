@@ -7,17 +7,25 @@ const timeSchema = new mongoose.Schema({
     trim: true
   },
   duration: {
-    type: String,
+    type: Number,
     trim: true
   },
   distance: {
-    type: String,
+    type: Number,
     trim: true
   },
   userId: {
     type: String,
     trim: true
   }
+});
+
+timeSchema.virtual('averageSpeed').get(function() {  
+  return (this.distance / this.duration).toFixed(2);
+});
+
+timeSchema.virtual('date').get(function() {
+  return this.startTime.toUTCString().slice(0, -7);
 });
 
 module.exports = mongoose.model('Time', timeSchema);
