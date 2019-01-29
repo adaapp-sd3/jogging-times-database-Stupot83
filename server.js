@@ -2,6 +2,7 @@ const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const Time = require('./models/Time');
+const Follower = require('./models/Follower');
 
 const express = require('express');
 const morgan = require('morgan');
@@ -35,6 +36,10 @@ app.use(express.static('public'));
 // use the mustache for rendering views:
 app.engine('html', expressHandlebars());
 app.set('view engine', 'handlebars');
+
+var followMember = function() {
+  console.log('poop');
+};
 
 // create all the routes
 app.use(routes);

@@ -1,4 +1,5 @@
-let request = require('request');
+const request = require('request');
+const mongoose = require('mongoose');
 
 describe("Given the user creates a new account", () => {
 

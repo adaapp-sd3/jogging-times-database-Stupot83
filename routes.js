@@ -2,9 +2,9 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const routes = new express.Router();
 const saltRounds = 10;
-const mongoose = require('mongoose');
 const User = require('./models/User');
 const Time = require('./models/Time');
+const Follower = require('./models/Follower');
 const DataAccess = require('./dataAccess/dataAccess');
 
 function formatDateForHTML(date) {

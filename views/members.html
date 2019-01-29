@@ -43,9 +43,8 @@
       >
 
         {{#each members}}
-        <a
+        <div
           class="flex-auto w-64 m-4 p-5 bg-white shadow rounded-lg text-black no-underline"
-          href="/members"
         >
           <h3 class="text-grey-darker uppercase text-base font-normal">
             {{ name }}
@@ -53,7 +52,12 @@
           <p class="text-xl mt-2">
             {{ email }}
           </p>
-        </a>
+          <button onclick="followMember()"
+          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-dark"
+        >
+          Follow →
+        </button>
+        </div>
         {{/each}}
       </section>
     </main>

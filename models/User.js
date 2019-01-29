@@ -15,4 +15,8 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+function followMember() {
+  console.log("poop");
+}
+
 module.exports = mongoose.model('User', userSchema);

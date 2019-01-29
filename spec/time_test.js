@@ -1,7 +1,6 @@
-let request = require('request');
-let cookie = request.cookie("userId=5c4b339724abd4a5f22ab236");
+// const cookie = request.cookie("userId=5c4b339724abd4a5f22ab236");
 
-describe("Given a new time is entered", () => {
+fdescribe("Given a new time is entered", () => {
 
 let serverResponse;
 
@@ -23,11 +22,11 @@ let serverResponse;
         };
         };
 
-        request(requestOptions(), (error, response, body) => {
-            if(error) throw new Error(error);
-            serverResponse  = response;
-            done();
-        });
+        // request(requestOptions(), (error, response, body) => {
+        //     if(error) throw new Error(error);
+        //     serverResponse  = response;
+        //     done();
+        // });
     });
 
     it("the time is created successfully", () => {
@@ -48,11 +47,11 @@ let serverResponse;
                 },
             };
             };
-            request(requestOptions(), (error, response, body) => {
-                if(error) throw new Error(error);
-                serverResponse  = response;
-                done();
-            });
+            // request(requestOptions(), (error, response, body) => {
+            //     if(error) throw new Error(error);
+            //     serverResponse  = response;
+            //     done();
+            // });
         });
 
         it("then the times are retrieved", () => {
