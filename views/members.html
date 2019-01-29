@@ -49,14 +49,8 @@
           <h3 class="text-grey-darker uppercase text-base font-normal">
             {{ name }}
           </h3>
-          <p class="text-xl mt-2">
-            {{ email }}
-          </p>
-          <button onclick="followMember()"
-          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-dark"
-        >
-          Follow →
-        </button>
+              <a class="no-underline block w-24 text-center rounded-full bg-orange-dark text-white p-2 m-4 ml-auto hover:bg-orange-darkest"
+              href="/members/{{ id }}/follow">Follow</a>
         </div>
         {{/each}}
       </section>

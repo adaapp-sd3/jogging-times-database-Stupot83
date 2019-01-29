@@ -2,7 +2,7 @@ const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const Time = require('./models/Time');
-const Follower = require('./models/Follower');
+const Following = require('./models/Following');
 
 const express = require('express');
 const morgan = require('morgan');

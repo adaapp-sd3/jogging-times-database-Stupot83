@@ -4,7 +4,7 @@ const routes = new express.Router();
 const saltRounds = 10;
 const User = require('./models/User');
 const Time = require('./models/Time');
-const Follower = require('./models/Follower');
+const Following = require('./models/Following');
 const DataAccess = require('./dataAccess/dataAccess');
 
 function formatDateForHTML(date) {
@@ -84,9 +84,9 @@ routes.get('/user', (req, res, next) => {
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-      res.render('user-profile.html', {
-        user: loggedInUser,
-      });
+    res.render('user-profile.html', {
+      user: loggedInUser,
+    });
   });
 });
 
@@ -222,9 +222,9 @@ routes.get('/account-maintenance', (req, res, next) => {
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-      res.render('account-maintenance.html', {
-        user: loggedInUser,
-      });
+    res.render('account-maintenance.html', {
+      user: loggedInUser,
+    });
   });
 });
 
@@ -255,12 +255,28 @@ routes.get('/members', (req, res, next) => {
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-  DataAccess.find(User, {}, res, next, (members) => {
+    var currentUserSearchObject = {
+      _id: {$ne: req.cookies.userId}
+    };
+
+    DataAccess.find(User, currentUserSearchObject, res, next, (members) => {
       res.render('members.html', {
         user: loggedInUser,
         members: members
       });
     });
+  });
+});
+
+routes.get('/members/:id/follow', (req, res, next) => {
+
+  var following = new Following();
+  following.followingId = req.params.id;
+  following.followerId = req.cookies.userId;
+
+
+  DataAccess.insertNew(following, res, next, () => {
+    res.redirect('/members');
   });
 });
 
@@ -272,10 +288,28 @@ routes.get('/friends', (req, res, next) => {
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-  DataAccess.find(User, {}, res, next, (friends) => {
-      res.render('friends.html', {
-        user: loggedInUser,
-        friends: friends
+    var followingSearchObject = {
+      followerId: req.cookies.userId
+    };
+
+    DataAccess.find(Following, followingSearchObject, res, next, (peopleUserIsFollowing) => {
+    
+      var userIdsToFind = [];
+
+      peopleUserIsFollowing.forEach( (person) => {
+        userIdsToFind.push(person.followingId);
+      });
+
+      var usersFollowingSearchObject = {
+        _id: {$in: userIdsToFind}
+      };
+
+      DataAccess.find(User, usersFollowingSearchObject, res, next, (following) => {
+        console.log({following});
+        res.render('friends.html', {
+          user: loggedInUser,
+          following: following,
+        });
       });
     });
   });
@@ -289,7 +323,7 @@ routes.get('/timeline', (req, res, next) => {
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-  DataAccess.find(User, {}, res, next, (timeline) => {
+    DataAccess.find(User, {}, res, next, (timeline) => {
       res.render('timeline.html', {
         user: loggedInUser,
         timeline: timeline
@@ -306,7 +340,7 @@ routes.get('/ranking', (req, res, next) => {
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-  DataAccess.find(User, {}, res, next, (ranking) => {
+    DataAccess.find(User, {}, res, next, (ranking) => {
       res.render('ranking.html', {
         user: loggedInUser,
         ranking: ranking
