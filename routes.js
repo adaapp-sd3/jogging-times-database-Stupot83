@@ -254,4 +254,55 @@ routes.get('/members', (req, res, next) => {
   });
 });
 
+routes.get('/friends', (req, res, next) => {
+
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+
+  DataAccess.find(User, {}, res, next, (friends) => {
+      res.render('friends.html', {
+        user: loggedInUser,
+        friends: friends
+      });
+    });
+  });
+});
+
+routes.get('/timeline', (req, res, next) => {
+
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+
+  DataAccess.find(User, {}, res, next, (timeline) => {
+      res.render('timeline.html', {
+        user: loggedInUser,
+        timeline: timeline
+      });
+    });
+  });
+});
+
+routes.get('/ranking', (req, res, next) => {
+
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+
+  DataAccess.find(User, {}, res, next, (ranking) => {
+      res.render('ranking.html', {
+        user: loggedInUser,
+        ranking: ranking
+      });
+    });
+  });
+});
+
 module.exports = routes;

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Jogger</title>
+
+    <!-- Tailwind.css is a CSS library. Read the docs here: -->
+    <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+    <link rel="stylesheet" href="/tailwind.css" />
+  </head>
+  <body class="bg-grey">
+    <header class="fixed pin-x pin-t bg-indigo shadow text-white">
+      <div
+        class="mx-auto h-16 p-5 flex items-center justify-between"
+        style="width: 1000px"
+      >
+        <h2 class="p-4 uppercase bg-indigo-dark border border-white">Jogger: Friends</h2>
+        <div>
+          Signed in as {{ user.name }} ({{ user.email }})
+          <a
+            href="/sign-out"
+            class="text-white bg-indigo-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
+          >
+            Sign Out
+          </a>
+          <a
+            href="/user"
+            class="text-white bg-indigo-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
+          >
+            Launchpad
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main
+      style="width: 1000px; height: auto"
+      class="mx-auto mt-16 pt-4 flex flex-col justify-center "
+    >
+
+    <section
+        class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
+      >
+
+        {{#each friends}}
+        <a
+          class="flex-auto w-64 m-4 p-5 bg-white shadow rounded-lg text-black no-underline"
+          href="/friends"
+        >
+          <h3 class="text-grey-darker uppercase text-base font-normal">
+            {{ name }}
+          </h3>
+          <p class="text-xl mt-2">
+            {{ email }}
+          </p>
+        </a>
+        {{/each}}
+      </section>
+    </main>
+  </body>
+</html>
