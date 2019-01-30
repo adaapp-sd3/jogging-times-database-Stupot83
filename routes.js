@@ -256,7 +256,9 @@ routes.get('/members', (req, res, next) => {
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
     var currentUserSearchObject = {
-      _id: {$ne: req.cookies.userId}
+      _id: {
+        $ne: req.cookies.userId
+      }
     };
 
     DataAccess.find(User, currentUserSearchObject, res, next, (members) => {
@@ -280,6 +282,17 @@ routes.get('/members/:id/follow', (req, res, next) => {
   });
 });
 
+routes.get('/members/:id/unfollow', (req, res, next) => {
+
+  var searchObject = {
+    _id: req.params.id
+  };
+
+  DataAccess.deleteOne(Following, searchObject, res, next, () => {
+    res.redirect('/friends');
+  });
+});
+
 routes.get('/friends', (req, res, next) => {
 
   var userSearchObject = {
@@ -293,22 +306,47 @@ routes.get('/friends', (req, res, next) => {
     };
 
     DataAccess.find(Following, followingSearchObject, res, next, (peopleUserIsFollowing) => {
-    
+
       var userIdsToFind = [];
 
-      peopleUserIsFollowing.forEach( (person) => {
+      peopleUserIsFollowing.forEach((person) => {
         userIdsToFind.push(person.followingId);
       });
 
       var usersFollowingSearchObject = {
-        _id: {$in: userIdsToFind}
+        _id: {
+          $in: userIdsToFind
+        }
       };
 
       DataAccess.find(User, usersFollowingSearchObject, res, next, (following) => {
-        console.log({following});
-        res.render('friends.html', {
-          user: loggedInUser,
-          following: following,
+
+        var followedSearchObject = {
+          followingId: req.cookies.userId
+        };
+
+        DataAccess.find(Following, followedSearchObject, res, next, (peopleFollowingUser) => {
+
+          var followIdsToFind = [];
+
+          peopleFollowingUser.forEach((follow) => {
+            followIdsToFind.push(follow.followerId);
+          });
+
+          var followedUserSearchObject = {
+            _id: {
+              $in: followIdsToFind
+            }
+          };
+
+          DataAccess.find(User, followedUserSearchObject, res, next, (followed) => {
+
+            res.render('friends.html', {
+              user: loggedInUser,
+              following: following,
+              followed: followed
+            });
+          });
         });
       });
     });
