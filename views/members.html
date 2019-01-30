@@ -37,19 +37,19 @@
       style="width: 1000px; height: auto"
       class="mx-auto mt-16 pt-4 flex flex-col justify-center "
     >
+    <h2 class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"">Members of Jogger</h2>
 
     <section
         class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
       >
-
         {{#each members}}
         <div
-          class="flex-auto w-64 m-4 p-5 bg-white shadow rounded-lg text-black no-underline"
+          class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-2 bg-white shadow text-center rounded-lg text-black no-underline"
         >
           <h3 class="text-grey-darker uppercase text-base font-normal">
             {{ name }}
           </h3>
-              <a class="no-underline block w-24 text-center rounded-full bg-orange-dark text-white p-2 m-4 ml-auto hover:bg-orange-darkest"
+              <a class="block no-underline w-24 text-center rounded-full bg-orange-dark text-white p-2 mt-4 ml-auto hover:bg-orange-darkest"
               href="/members/{{ id }}/follow">Follow</a>
         </div>
         {{/each}}
