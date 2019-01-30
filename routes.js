@@ -262,6 +262,7 @@ routes.get('/members', (req, res, next) => {
     };
 
     DataAccess.find(User, currentUserSearchObject, res, next, (members) => {
+      
       res.render('members.html', {
         user: loggedInUser,
         members: members
@@ -288,9 +289,17 @@ routes.get('/members/:id/unfollow', (req, res, next) => {
     _id: req.params.id
   };
 
-  DataAccess.deleteOne(Following, searchObject, res, next, () => {
+  DataAccess.findOne(User, searchObject, res, next, (userFollowed) => {
+
+    var unfollowSearchObject = {
+      followingId: userFollowed.id,
+      followerId: req.cookies.userId
+    };
+
+  DataAccess.deleteOne(Following, unfollowSearchObject, res, next, () => {
     res.redirect('/friends');
   });
+});
 });
 
 routes.get('/friends', (req, res, next) => {
