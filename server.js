@@ -45,6 +45,7 @@ var followMember = function() {
 app.use(routes);
 
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
 mongoose.Promise = global.Promise;
 mongoose.connection
   .on('connected', () => {

@@ -35,7 +35,13 @@ routes.post('/create-account', (req, res, next) => {
   DataAccess.insertNew(user, res, next, (data) => {
     res.cookie('userId', data.id);
     res.redirect('/user');
-  });
+  }, err => {
+    console.log(err);
+    res.render('create-account.html', {
+      errorMessage: 'User already exists'
+    });
+  }
+  );
 });
 
 routes.get('/sign-in', (req, res) => {
@@ -155,8 +161,14 @@ routes.post('/times/new', (req, res, next) => {
 
     DataAccess.insertNew(time, res, next, () => {
       res.redirect('/times');
-    });
-  });
+    }, err => {
+      console.log(err);
+      res.render('create-time.html', {
+        errorMessage: 'A jog already exists with that startTime'
+      });
+    }
+  );
+});
 });
 
 // show the edit time form for a specific time

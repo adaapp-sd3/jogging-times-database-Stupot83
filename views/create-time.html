@@ -41,6 +41,10 @@
       >
         <h1 class="text-2xl text-white bg-black text-center p-4">Add new time</h1>
 
+        {{#if errorMessage}}
+        <div class="bg-red-lightest text-red-dark p-4">{{ errorMessage }}</div>
+        {{/if}}
+
         <label class="m-4 block">
           Date
           <input

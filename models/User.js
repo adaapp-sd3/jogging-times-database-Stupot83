@@ -15,8 +15,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-function followMember() {
-  console.log("poop");
-}
+userSchema.index({name: 1, email:1}, {unique: true});
 
 module.exports = mongoose.model('User', userSchema);

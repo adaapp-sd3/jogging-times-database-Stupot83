@@ -20,6 +20,8 @@ const timeSchema = new mongoose.Schema({
   }
 });
 
+timeSchema.index({startTime: 1}, {unique: true});
+
 timeSchema.virtual('averageSpeed').get(function() {  
   return (this.distance / this.duration).toFixed(2);
 });

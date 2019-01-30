@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-module.exports.insertNew = (model, res, next, responseCallback) => {
+module.exports.insertNew = (model, res, next, responseCallback, errorCallback) => {
     const callback = err => {
       if (err) {
-        console.log({err});
-          next(err);
+        console.log("hello");
+          errorCallback(err);
       }
       else {
           responseCallback(model);
