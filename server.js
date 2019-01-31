@@ -37,10 +37,6 @@ app.use(express.static('public'));
 app.engine('html', expressHandlebars());
 app.set('view engine', 'handlebars');
 
-var followMember = function() {
-  console.log('poop');
-};
-
 // create all the routes
 app.use(routes);
 

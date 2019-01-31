@@ -36,12 +36,10 @@ routes.post('/create-account', (req, res, next) => {
     res.cookie('userId', data.id);
     res.redirect('/user');
   }, err => {
-    console.log(err);
     res.render('create-account.html', {
       errorMessage: 'User already exists'
     });
-  }
-  );
+  });
 });
 
 routes.get('/sign-in', (req, res) => {
@@ -162,13 +160,11 @@ routes.post('/times/new', (req, res, next) => {
     DataAccess.insertNew(time, res, next, () => {
       res.redirect('/times');
     }, err => {
-      console.log(err);
       res.render('create-time.html', {
         errorMessage: 'A jog already exists with that startTime'
       });
-    }
-  );
-});
+    });
+  });
 });
 
 // show the edit time form for a specific time
@@ -207,31 +203,30 @@ routes.post('/times/:id', (req, res, next) => {
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-  var searchObject = {
-    _id: req.params.id
-  };
+    var searchObject = {
+      _id: req.params.id
+    };
 
-  DataAccess.findOneAndModify(Time, searchObject, res, next, (time) => {
+    DataAccess.findOneAndModify(Time, searchObject, res, next, (time) => {
 
-    var formattedStartTime = formatDateForHTML(time.startTime);
+      var formattedStartTime = formatDateForHTML(time.startTime);
 
-    time.startTime = form.startTime;
-    time.distance = form.distance;
-    time.duration = form.duration;
+      time.startTime = form.startTime;
+      time.distance = form.distance;
+      time.duration = form.duration;
 
-    DataAccess.updateExisting(Time, time, res, next, () => {
-      res.redirect('/times');
-    }, err => {
-      console.log(err);
-      res.render('edit-time.html', {
-        user: loggedInUser,
-        time: time,
-        formattedStartTime: formattedStartTime,
-        errorMessage: 'A jog already exists with that startTime'
+      DataAccess.updateExisting(Time, time, res, next, () => {
+        res.redirect('/times');
+      }, err => {
+        res.render('edit-time.html', {
+          user: loggedInUser,
+          time: time,
+          formattedStartTime: formattedStartTime,
+          errorMessage: 'A jog already exists with that startTime'
+        });
       });
     });
   });
-});
 });
 
 routes.get('/times/:id/delete', (req, res, next) => {
@@ -292,7 +287,7 @@ routes.get('/members', (req, res, next) => {
     };
 
     DataAccess.find(User, currentUserSearchObject, res, next, (members) => {
-      
+
       res.render('members.html', {
         user: loggedInUser,
         members: members
@@ -326,10 +321,10 @@ routes.get('/members/:id/unfollow', (req, res, next) => {
       followerId: req.cookies.userId
     };
 
-  DataAccess.deleteOne(Following, unfollowSearchObject, res, next, () => {
-    res.redirect('/friends');
+    DataAccess.deleteOne(Following, unfollowSearchObject, res, next, () => {
+      res.redirect('/friends');
+    });
   });
-});
 });
 
 routes.get('/friends', (req, res, next) => {
