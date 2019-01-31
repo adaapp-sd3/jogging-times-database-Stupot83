@@ -389,36 +389,76 @@ routes.get('/friends', (req, res, next) => {
 
 routes.get('/timeline', (req, res, next) => {
 
-  var userSearchObject = {
-    _id: req.cookies.userId
-  };
+      var userSearchObject = {
+        _id: req.cookies.userId
+      };
 
-  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+      DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-    DataAccess.find(User, {}, res, next, (timeline) => {
-      res.render('timeline.html', {
-        user: loggedInUser,
-        timeline: timeline
-      });
-    });
-  });
-});
+            var followingSearchObject = {
+              followerId: req.cookies.userId
+            };
 
-routes.get('/ranking', (req, res, next) => {
+            DataAccess.find(Following, followingSearchObject, res, next, (peopleUserIsFollowing) => {
 
-  var userSearchObject = {
-    _id: req.cookies.userId
-  };
+              var userIdsToFind = [];
 
-  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+              peopleUserIsFollowing.forEach((person) => {
+                userIdsToFind.push(person.followingId);
+              });
 
-    DataAccess.find(User, {}, res, next, (ranking) => {
-      res.render('ranking.html', {
-        user: loggedInUser,
-        ranking: ranking
-      });
-    });
-  });
-});
+              var usersFollowingSearchObject = {
+                _id: {
+                  $in: userIdsToFind
+                }
+              };
 
-module.exports = routes;
+              DataAccess.find(User, usersFollowingSearchObject, res, next, (followedUsers) => {
+
+                res.render('timeline.html', {
+                  user: loggedInUser,
+                  followedUsers: followedUsers,
+                });
+              });
+            });
+          });
+        });
+
+        routes.get('/ranking', (req, res, next) => {
+
+          var userSearchObject = {
+            _id: req.cookies.userId
+          };
+    
+          DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+    
+                var followingSearchObject = {
+                  followerId: req.cookies.userId
+                };
+    
+                DataAccess.find(Following, followingSearchObject, res, next, (peopleUserIsFollowing) => {
+    
+                  var userIdsToFind = [];
+    
+                  peopleUserIsFollowing.forEach((person) => {
+                    userIdsToFind.push(person.followingId);
+                  });
+    
+                  var usersFollowingSearchObject = {
+                    _id: {
+                      $in: userIdsToFind
+                    }
+                  };
+    
+                  DataAccess.find(User, usersFollowingSearchObject, res, next, (followedUsers) => {
+    
+                    res.render('ranking.html', {
+                      user: loggedInUser,
+                      followedUsers: followedUsers,
+                    });
+                  });
+                });
+              });
+            });
+
+            module.exports = routes;
