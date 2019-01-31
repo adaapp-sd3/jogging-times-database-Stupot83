@@ -201,19 +201,37 @@ routes.get('/times/:id', (req, res, next) => {
 routes.post('/times/:id', (req, res, next) => {
   var form = req.body;
 
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+
   var searchObject = {
     _id: req.params.id
   };
 
   DataAccess.findOneAndModify(Time, searchObject, res, next, (time) => {
+
+    var formattedStartTime = formatDateForHTML(time.startTime);
+
     time.startTime = form.startTime;
     time.distance = form.distance;
     time.duration = form.duration;
 
     DataAccess.updateExisting(Time, time, res, next, () => {
       res.redirect('/times');
+    }, err => {
+      console.log(err);
+      res.render('edit-time.html', {
+        user: loggedInUser,
+        time: time,
+        formattedStartTime: formattedStartTime,
+        errorMessage: 'A jog already exists with that startTime'
+      });
     });
   });
+});
 });
 
 routes.get('/times/:id/delete', (req, res, next) => {

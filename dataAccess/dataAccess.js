@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 module.exports.insertNew = (model, res, next, responseCallback, errorCallback) => {
     const callback = err => {
       if (err) {
-        console.log("hello");
           errorCallback(err);
       }
       else {
@@ -46,10 +45,10 @@ module.exports.findOne = (model, searchObject, res, next, callback) => {
     });
 };
 
-module.exports.updateExisting = (mongooseObject, model, res, next, updateCallback) => {
+module.exports.updateExisting = (mongooseObject, model, res, next, updateCallback, errorCallback) => {
     const callback = err => {
         if (err) {
-            next(err);
+            errorCallback(err);
         }
         else {
             updateCallback();
