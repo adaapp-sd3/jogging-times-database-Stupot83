@@ -161,6 +161,7 @@ routes.post('/times/new', (req, res, next) => {
       res.redirect('/times');
     }, err => {
       res.render('create-time.html', {
+        user: loggedInUser,
         errorMessage: 'A jog already exists with that startTime'
       });
     });
