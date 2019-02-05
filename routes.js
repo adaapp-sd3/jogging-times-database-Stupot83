@@ -32,14 +32,23 @@ routes.post('/create-account', (req, res, next) => {
   user.email = form.email;
   user.password_hash = passwordHash;
 
-  DataAccess.insertNew(user, res, next, (data) => {
-    res.cookie('userId', data.id);
-    res.redirect('/user');
-  }, err => {
+  if (form.password !== form.passwordConfirm) {
     res.render('create-account.html', {
-      errorMessage: 'User already exists'
+      name: user.name,
+      email: user.email,
+      errorMessage: 'Password does not match'
     });
-  });
+  } else {
+
+    DataAccess.insertNew(user, res, next, (data) => {
+      res.cookie('userId', data.id);
+      res.redirect('/user');
+    }, err => {
+      res.render('create-account.html', {
+        errorMessage: 'User already exists'
+      });
+    });
+  }
 });
 
 routes.get('/sign-in', (req, res) => {
@@ -241,15 +250,59 @@ routes.get('/times/:id/delete', (req, res, next) => {
   });
 });
 
-routes.get('/account-maintenance', (req, res, next) => {
+routes.get('/edit-account', (req, res, next) => {
   var userSearchObject = {
     _id: req.cookies.userId
   };
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-    res.render('account-maintenance.html', {
+    res.render('edit-account.html', {
       user: loggedInUser,
+    });
+  });
+});
+
+routes.post('/edit-account', (req, res, next) => {
+
+  var userSearchObject = {
+    _id: req.cookies.userId
+  };
+
+  DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
+
+    var searchObject = {
+      _id: req.cookies.userId
+    };
+
+    DataAccess.findOneAndModify(User, searchObject, res, next, (user) => {
+
+      var form = req.body;
+      var passwordHash = bcrypt.hashSync(form.password, saltRounds);
+
+      user.name = form.name;
+      user.email = form.email;
+      user.password_hash = passwordHash;
+
+      if (form.password !== form.passwordConfirm) {
+        res.render('edit-account.html', {
+          user: loggedInUser,
+          name: form.name,
+          email: form.email,
+          errorMessage: 'Password does not match'
+        });
+      } else {
+
+        DataAccess.updateExisting(User, user, res, next, () => {
+          res.clearCookie('userId');
+          res.redirect('/sign-in');
+        }, err => {
+          res.render('edit-account.html', {
+            user: loggedInUser,
+            errorMessage: 'A user already exists with those details'
+          });
+        });
+      }
     });
   });
 });
