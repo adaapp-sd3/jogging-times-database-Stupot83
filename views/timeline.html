@@ -1,58 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Jogger</title>
 
-    <!-- Tailwind.css is a CSS library. Read the docs here: -->
-    <!-- https://tailwindcss.com/docs/what-is-tailwind -->
-    <link rel="stylesheet" href="/tailwind.css" />
-  </head>
-  <body class="bg-grey">
-    <header class="fixed pin-x pin-t bg-blue shadow text-white">
-      <div
-        class="mx-auto h-16 p-5 flex items-center justify-between"
-        style="width: 1000px"
-      >
-        <h2 class="p-4 uppercase bg-blue-dark border border-white">Jogger: Timeline</h2>
-        <div>
-          Signed in as {{ user.name }} ({{ user.email }})
-          <a
-            href="/sign-out"
-            class="text-white bg-blue-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
-          >
-            Sign Out
-          </a>
-          <a
-            href="/user"
-            class="text-white bg-blue-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
-          >
-            Launchpad
-          </a>
-        </div>
-      </div>
-    </header>
+<head>
+  <meta charset="utf-8" />
+  <title>Jogger</title>
 
-    <main
-      style="width: 1000px; height: auto"
-      class="mx-auto mt-16 pt-4 flex flex-col justify-center "
-    >
+  <!-- Tailwind.css is a CSS library. Read the docs here: -->
+  <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+  <link rel="stylesheet" href="/tailwind.css" />
+</head>
 
-    <section
-        class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
-      >
-
-        {{#each followedUsers}}
-        <div
-        class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-2 bg-white shadow rounded-lg text-center text-black no-underline"
-      >
-          <h3 class="text-grey-darker uppercase text-base font-semibold">
-            {{ name }}
-          </h3>
+<body class="bg-grey">
+  <header class="fixed pin-x pin-t bg-blue shadow text-white">
+    <div class="mx-auto h-16 p-5 flex items-center justify-between" style="width: 1000px">
+      <h2 class="p-4 uppercase bg-blue-dark border border-white">Jogger: Timeline</h2>
+      <div>
+        Signed in as {{ user.name }} ({{ user.email }})
+        <a href="/sign-out" class="text-white bg-blue-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Sign Out
         </a>
-        </div>
+        <a href="/user" class="text-white bg-blue-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Launchpad
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main style="width: 1000px; height: auto" class="mx-auto mt-16 pt-4 flex flex-col justify-center ">
+
+    <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+
+      {{#each usersWithTimes}}
+      <div class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-2 bg-white shadow rounded-lg text-center text-black no-underline">
+        <h3 class="text-grey-darker uppercase text-base font-bold">
+          {{ name }}
+        </h3>
+        <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+        </section>
+        {{#each times}}
+        <h3 class="text-grey-darker uppercase text-base font-semibold">
+          {{ date }}
+        </h3>
+        <p class="text-xl mt-2">
+          {{ distance }}
+          <span class="uppercase text-sm text-grey-darker font-semibold -ml-1">
+            km
+          </span>
+          in {{ duration }}
+          <span class="uppercase text-sm text-grey-darker font-semibold -ml-1">
+            hrs
+          </span>
+        </p>
+        <p class="pt-2 pb-2 text-xl mt-1">
+          Avg. speed: {{averageSpeed}}
+          <span class="uppercase text-sm text-grey-darker font-semibold -ml-1">
+            km/hr
+          </span>
+        </p>
+        <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+        </section>
         {{/each}}
-      </section>
-    </main>
-  </body>
+      </div>
+      {{/each}}
+    </section>
+  </main>
+</body>
+
 </html>

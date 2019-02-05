@@ -37,6 +37,13 @@
       style="width: 1000px; height: auto"
       class="mx-auto mt-16 pt-4 flex flex-col justify-center "
     >
+    <h2 class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"">Your Jogger Stats</h2>
+
+    <section
+        class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
+      >
+    </section>
+    
       <section class="flex items-center">
         <div
           class="m-4 p-6 rounded-lg bg-white flex-1 shadow flex flex-col-reverse"
@@ -75,12 +82,14 @@
         </div>
       </section>
 
+      <h2 class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"">Your Jogger Times</h2>
+
       <section
         class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
       >
         <a
           href="/times/new"
-          class="flex-auto w-64 m-4 p-5 bg-green-dark shadow rounded-lg text-3xl text-white 
+          class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-2 bg-green-dark shadow rounded-lg text-3xl text-white 
           no-underline flex items-center justify-center text-center hover:bg-green-darkest"
         >
           Add new time
@@ -88,13 +97,13 @@
 
         {{#each times}}
         <a
-          class="flex-auto w-64 m-4 p-5 bg-white shadow rounded-lg text-black no-underline"
+          class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-5 bg-white shadow rounded-lg no-underline"
           href="/times/{{ id }}"
         >
-          <h3 class="text-grey-darker uppercase text-base font-semibold">
+          <h3 class="text-green-dark uppercase text-base font-semibold">
             {{ date }}
           </h3>
-          <p class="text-xl mt-2">
+          <p class="text-blue font-semibold text-xl mt-2">
             {{ distance }}
             <span
               class="uppercase text-sm text-grey-darker font-semibold -ml-1"
@@ -108,7 +117,7 @@
               hrs
             </span>
           </p>
-          <p class="text-xl mt-1">
+          <p class="text-purple text-xl mt-1">
             Avg. speed: {{averageSpeed}}
             <span
               class="uppercase text-sm text-grey-darker font-semibold -ml-1"

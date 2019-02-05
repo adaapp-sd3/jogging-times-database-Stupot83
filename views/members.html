@@ -37,14 +37,14 @@
       style="width: 1000px; height: auto"
       class="mx-auto mt-16 pt-4 flex flex-col justify-center "
     >
-    <h2 class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"">Members you are not following</h2>
+    <h2 class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"">Members you can follow</h2>
 
     <section
         class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
       >
         {{#each members}}
         <div
-          class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-2 bg-white shadow text-center rounded-lg text-black no-underline"
+          class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-5 bg-white shadow text-center rounded-lg text-black no-underline"
         >
           <h3 class="text-grey-darker uppercase text-base font-semibold">
             {{ name }}
@@ -55,13 +55,13 @@
         </div>
         {{/each}}
       </section>
-    <h2 class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"">Members you are already following</h2>
+    <h2 class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"">Members you are following</h2>
     <section
         class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
       >
         {{#each following}}
         <div
-          class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-2 bg-white shadow text-center rounded-lg text-black no-underline"
+          class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-5 bg-white shadow text-center rounded-lg text-black no-underline"
         >
           <h3 class="text-grey-darker uppercase text-base font-semibold">
             {{ name }}

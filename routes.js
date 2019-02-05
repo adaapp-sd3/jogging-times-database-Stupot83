@@ -281,44 +281,44 @@ routes.get('/members', (req, res, next) => {
 
   DataAccess.findOne(User, userSearchObject, res, next, (loggedInUser) => {
 
-      var followingSearchObject = {
-        followerId: req.cookies.userId
+    var followingSearchObject = {
+      followerId: req.cookies.userId
+    };
+
+    DataAccess.find(Following, followingSearchObject, res, next, (peopleUserIsFollowing) => {
+
+      var userIdsToFind = [];
+
+      peopleUserIsFollowing.forEach((person) => {
+        userIdsToFind.push(person.followingId);
+      });
+
+      var usersFollowingSearchObject = {
+        _id: {
+          $ne: req.cookies.userId,
+          $nin: userIdsToFind
+        }
       };
 
-      DataAccess.find(Following, followingSearchObject, res, next, (peopleUserIsFollowing) => {
+      DataAccess.find(User, usersFollowingSearchObject, res, next, (members) => {
 
-        var userIdsToFind = [];
-
-        peopleUserIsFollowing.forEach((person) => {
-          userIdsToFind.push(person.followingId);
-        });
-
-        var usersFollowingSearchObject = {
+        var followedAlreadySearchObject = {
           _id: {
-            $ne: req.cookies.userId,
-            $nin: userIdsToFind
+            $in: userIdsToFind
           }
         };
 
-        DataAccess.find(User, usersFollowingSearchObject, res, next, (members) => {
-
-          var followedAlreadySearchObject = {
-            _id: {
-              $in: userIdsToFind
-          }
-        };
-
-          DataAccess.find(User, followedAlreadySearchObject, res, next, (following) => {
-            res.render('members.html', {
-              user: loggedInUser,
-              members: members,
-              following: following
-            });
+        DataAccess.find(User, followedAlreadySearchObject, res, next, (following) => {
+          res.render('members.html', {
+            user: loggedInUser,
+            members: members,
+            following: following
           });
-          });
+        });
       });
     });
   });
+});
 
 routes.get('/members/:id/follow', (req, res, next) => {
 
@@ -439,9 +439,35 @@ routes.get('/timeline', (req, res, next) => {
 
       DataAccess.find(User, usersFollowingSearchObject, res, next, (followedUsers) => {
 
-        res.render('timeline.html', {
-          user: loggedInUser,
-          followedUsers: followedUsers,
+        var usersWithTimes = [];
+
+        followedUsers.forEach((followedUser) => {
+          var userWithTimes = {
+            name: followedUser.name,
+            times: [],
+            userId: followedUser._id
+          };
+
+          var usersFollowingTimesSearchObject = {
+            userId: followedUser._id
+          };
+
+          DataAccess.find(Time, usersFollowingTimesSearchObject, res, next, (userTimes) => {
+
+            userTimes.forEach((userTime) => {
+              userWithTimes.times.push(userTime);
+            });
+
+            usersWithTimes.push(userWithTimes);
+
+            if (userWithTimes.times.length === userTimes.length &&
+              usersWithTimes.length === followedUsers.length) {
+              res.render('timeline.html', {
+                user: loggedInUser,
+                usersWithTimes: usersWithTimes
+              });
+            }
+          });
         });
       });
     });
