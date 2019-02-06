@@ -555,9 +555,44 @@ routes.get('/ranking', (req, res, next) => {
 
       DataAccess.find(User, usersFollowingSearchObject, res, next, (followedUsers) => {
 
-        res.render('ranking.html', {
-          user: loggedInUser,
-          followedUsers: followedUsers,
+        var usersWithTimes = [];
+
+        followedUsers.forEach((followedUser) => {
+          var userWithTimes = {
+            name: followedUser.name,
+            stats: {},
+            userId: followedUser._id
+        };
+
+          var usersFollowingTimesSearchObject = {
+            userId: followedUser._id
+          };
+
+          DataAccess.find(Time, usersFollowingTimesSearchObject, res, next, (userTimes) => {
+
+            var totalDistance = userTimes.reduce((previous, current) => previous + current.distance, 0);
+            var totalTime = userTimes.reduce((previous, current) => previous + current.duration, 0);
+            var avgSpeed = totalDistance / totalTime;
+            avgSpeed = avgSpeed || 0;
+
+            userWithTimes.stats.totalDistance = parseFloat(totalDistance).toFixed(2); 
+            userWithTimes.stats.totalTime = parseFloat(totalTime).toFixed(2);
+            userWithTimes.stats.avgSpeed = parseFloat(avgSpeed).toFixed(2);
+
+            usersWithTimes.push(userWithTimes);
+
+            if (usersWithTimes.length === followedUsers.length) {
+              res.render('ranking.html', {
+                user: loggedInUser,
+                sortedByDistance: usersWithTimes.sort((distanceA, distanceB) => 
+                distanceB.stats.totalDistance - distanceA.stats.totalDistance),
+                sortedByTime: usersWithTimes.sort((timeA, timeB) => 
+                timeB.stats.totalTime - timeA.stats.totalTime),
+                sortedByAverage: usersWithTimes.sort((avgSpeedA, avgSpeedB) => 
+                avgSpeedB.stats.avgSpeed - avgSpeedA.stats.avgSpeed)
+              });
+            }
+          });
         });
       });
     });
