@@ -35,7 +35,7 @@
 
     <main class="h-screen flex flex-col items-center justify-center">
       <form
-        class="m-4 shadow-lg rounded-lg overflow-hidden w-64 bg-green"
+        class="m-4 shadow-lg rounded-lg overflow-hidden w-1/5 bg-green"
         method="POST"
         action="/times/{{ time.id }}"
       >
@@ -80,14 +80,14 @@
 
         <button
           type="submit"
-          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-dark"
+          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-darkest"
         >
           Update Time →
         </button>
       </form>
       <a
         href="/times/{{ time.id }}/delete"
-        class="block no-underline w-auto rounded-full bg-red text-white p-2 m-4 hover:bg-red-dark"
+        class="block no-underline w-auto rounded-full bg-red text-white p-2 m-4 hover:bg-red-darkest"
       >
         Delete time →
       </a>

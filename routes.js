@@ -287,15 +287,15 @@ routes.post('/edit-account', (req, res, next) => {
       if (form.password !== form.passwordConfirm) {
         res.render('edit-account.html', {
           user: loggedInUser,
-          name: form.name,
-          email: form.email,
+          name: user.name,
+          email: user.email,
           errorMessage: 'Password does not match'
         });
       } else {
 
         DataAccess.updateExisting(User, user, res, next, () => {
-          res.clearCookie('userId');
-          res.redirect('/sign-in');
+          res.cookie('userId', user.id);
+          res.redirect('/user');
         }, err => {
           res.render('edit-account.html', {
             user: loggedInUser,

@@ -35,20 +35,20 @@
 
     <main class="h-screen flex flex-col items-center justify-center">
       <form
-        class="m-4 shadow-lg rounded-lg overflow-hidden w-1/5"
+        class="m-4 shadow-lg rounded-lg overflow-hidden w-1/5 bg-red"
         method="POST"
         action="/edit-account"
       >
-        <h1 class="text-2xl bg-grey-dark text-center text-white p-4">Edit Account</h1>
+        <h1 class="text-2xl bg-black text-center text-white p-4">Edit Account</h1>
 
         {{#if errorMessage}}
       <div class="bg-red-lightest text-red-dark p-4">{{ errorMessage }}</div>
       {{/if}}
 
-        <label class="m-4 block">
+        <label class="m-4 block text-white">
           Update Name
           <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
+            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
             type="text"
             name="name"
             value="{{ user.name }}"
@@ -56,10 +56,10 @@
           />
         </label>
 
-        <label class="m-4 block">
+        <label class="m-4 block text-white">
           Update Email Address
           <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
+            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
             type="email"
             name="email"
             value="{{ user.email }}"
@@ -67,20 +67,20 @@
           />
         </label>
 
-        <label class="m-4 block">
-          Change Password
+        <label class="m-4 block text-white">
+          Update Password
           <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
+            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
             type="password"
             name="password"
             required
           />
         </label>
 
-        <label class="m-4 block">
-          Confirm Changed Password
+        <label class="m-4 block text-white">
+          Confirm Updated Password
           <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
+            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
             type="password"
             name="passwordConfirm"
             required
@@ -89,14 +89,14 @@
 
         <button
           type="submit"
-          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto"
+          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-darkest"
         >
           Update Account →
         </button>
       </form>
     <a
     href="/delete-account"
-    class="block no-underline w-auto rounded-full bg-red text-white p-2 m-4 hover:bg-red-dark"
+    class="block no-underline w-auto rounded-full bg-red text-white p-2 m-4 hover:bg-red-darkest"
         >
           Delete Account →
   </a>
