@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const routes = new express.Router();
 const saltRounds = 10;
-const User = require('./models/User');
+const User = require('./models/User').default;
 const Time = require('./models/Time');
 const Following = require('./models/Following');
 const DataAccess = require('./dataAccess/dataAccess');
@@ -581,15 +581,27 @@ routes.get('/ranking', (req, res, next) => {
 
             usersWithTimes.push(userWithTimes);
 
+            var sortedByDistance = usersWithTimes.slice().sort((distanceA, distanceB) => 
+            distanceB.stats.totalDistance - distanceA.stats.totalDistance);
+
+            var sortedByTime = usersWithTimes.slice().sort((timeA, timeB) => 
+            timeB.stats.totalTime - timeA.stats.totalTime);
+
+            var sortedByAverage = usersWithTimes.slice().sort((avgSpeedA, avgSpeedB) => 
+            avgSpeedB.stats.avgSpeed - avgSpeedA.stats.avgSpeed);
+
+            var ranks = usersWithTimes.slice().map(function(v){ return sortedByDistance.indexOf(v)+1; });
+
+            console.log({ranks});
+
             if (usersWithTimes.length === followedUsers.length) {
               res.render('ranking.html', {
                 user: loggedInUser,
-                sortedByDistance: usersWithTimes.sort((distanceA, distanceB) => 
-                distanceB.stats.totalDistance - distanceA.stats.totalDistance),
-                sortedByTime: usersWithTimes.sort((timeA, timeB) => 
-                timeB.stats.totalTime - timeA.stats.totalTime),
-                sortedByAverage: usersWithTimes.sort((avgSpeedA, avgSpeedB) => 
-                avgSpeedB.stats.avgSpeed - avgSpeedA.stats.avgSpeed)
+                sortedByDistance: sortedByDistance,
+                sortedByTime: sortedByTime,
+                sortedByAverage: sortedByAverage,
+                ranks: ranks
+
               });
             }
           });
