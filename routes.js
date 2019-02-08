@@ -534,6 +534,13 @@ routes.get('/timeline', (req, res, next) => {
 
             if (userWithTimes.times.length === userTimes.length &&
               usersWithTimes.length === followedUsers.length) {
+
+                usersWithTimes.sort((a, b) => {
+                  var nameA = a.name.toUpperCase();
+                  var nameB = b.name.toUpperCase();
+                  return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+              });
+
               res.render('timeline.html', {
                 user: loggedInUser,
                 usersWithTimes: usersWithTimes
