@@ -162,8 +162,8 @@ routes.post('/times/new', (req, res, next) => {
 
     var time = new Time();
     time.startTime = form.startTime;
-    time.distance = form.distance;
-    time.duration = form.duration;
+    time.distance = parseFloat(form.distance).toFixed(2);
+    time.duration = parseFloat(form.duration).toFixed(2);
     time.userId = userId;
 
     DataAccess.insertNew(time, res, next, () => {
@@ -222,8 +222,8 @@ routes.post('/times/:id', (req, res, next) => {
       var formattedStartTime = formatDateForHTML(time.startTime);
 
       time.startTime = form.startTime;
-      time.distance = form.distance;
-      time.duration = form.duration;
+      time.distance = parseFloat(form.distance).toFixed(2);
+      time.duration = parseFloat(form.duration).toFixed(2);
 
       DataAccess.updateExisting(Time, time, res, next, () => {
         res.redirect('/times');
@@ -399,7 +399,7 @@ routes.get('/members/:id/unfollow', (req, res, next) => {
     };
 
     DataAccess.deleteOne(Following, unfollowSearchObject, res, next, () => {
-      res.redirect('/friends');
+      res.redirect('/members');
     });
   });
 });
@@ -460,6 +460,25 @@ routes.get('/friends', (req, res, next) => {
           });
         });
       });
+    });
+  });
+});
+
+routes.get('/friends/:id/unfollow', (req, res, next) => {
+
+  var searchObject = {
+    _id: req.params.id
+  };
+
+  DataAccess.findOne(User, searchObject, res, next, (userFollowed) => {
+
+    var unfollowSearchObject = {
+      followingId: userFollowed.id,
+      followerId: req.cookies.userId
+    };
+
+    DataAccess.deleteOne(Following, unfollowSearchObject, res, next, () => {
+      res.redirect('/friends');
     });
   });
 });
@@ -562,7 +581,7 @@ routes.get('/ranking', (req, res, next) => {
             name: followedUser.name,
             stats: {},
             userId: followedUser._id
-        };
+          };
 
           var usersFollowingTimesSearchObject = {
             userId: followedUser._id
@@ -575,24 +594,20 @@ routes.get('/ranking', (req, res, next) => {
             var avgSpeed = totalDistance / totalTime;
             avgSpeed = avgSpeed || 0;
 
-            userWithTimes.stats.totalDistance = parseFloat(totalDistance).toFixed(2); 
+            userWithTimes.stats.totalDistance = parseFloat(totalDistance).toFixed(2);
             userWithTimes.stats.totalTime = parseFloat(totalTime).toFixed(2);
             userWithTimes.stats.avgSpeed = parseFloat(avgSpeed).toFixed(2);
 
             usersWithTimes.push(userWithTimes);
 
-            var sortedByDistance = usersWithTimes.slice().sort((distanceA, distanceB) => 
-            distanceB.stats.totalDistance - distanceA.stats.totalDistance);
+            var sortedByDistance = usersWithTimes.slice().sort((distanceA, distanceB) =>
+              distanceB.stats.totalDistance - distanceA.stats.totalDistance);
 
-            var sortedByTime = usersWithTimes.slice().sort((timeA, timeB) => 
-            timeB.stats.totalTime - timeA.stats.totalTime);
+            var sortedByTime = usersWithTimes.slice().sort((timeA, timeB) =>
+              timeB.stats.totalTime - timeA.stats.totalTime);
 
-            var sortedByAverage = usersWithTimes.slice().sort((avgSpeedA, avgSpeedB) => 
-            avgSpeedB.stats.avgSpeed - avgSpeedA.stats.avgSpeed);
-
-            var ranks = usersWithTimes.slice().map(function(v){ return sortedByDistance.indexOf(v)+1; });
-
-            console.log({ranks});
+            var sortedByAverage = usersWithTimes.slice().sort((avgSpeedA, avgSpeedB) =>
+              avgSpeedB.stats.avgSpeed - avgSpeedA.stats.avgSpeed);
 
             if (usersWithTimes.length === followedUsers.length) {
               res.render('ranking.html', {
@@ -600,8 +615,6 @@ routes.get('/ranking', (req, res, next) => {
                 sortedByDistance: sortedByDistance,
                 sortedByTime: sortedByTime,
                 sortedByAverage: sortedByAverage,
-                ranks: ranks
-
               });
             }
           });
