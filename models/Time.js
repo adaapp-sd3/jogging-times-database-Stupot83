@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const timeSchema = new mongoose.Schema({
-  
+
   startTime: {
     type: Date,
     trim: true
@@ -20,13 +20,17 @@ const timeSchema = new mongoose.Schema({
   }
 });
 
-timeSchema.index({startTime: 1}, {unique: true});
+timeSchema.index({
+  startTime: 1
+}, {
+  unique: true
+});
 
-timeSchema.virtual('averageSpeed').get(function() {  
+timeSchema.virtual('averageSpeed').get(function () {
   return (this.distance / this.duration).toFixed(2);
 });
 
-timeSchema.virtual('date').get(function() {
+timeSchema.virtual('date').get(function () {
   return this.startTime.toUTCString().slice(0, -7);
 });
 

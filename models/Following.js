@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const followingSchema = new mongoose.Schema({
-  
+
   followingId: {
     type: String,
     trim: true
@@ -12,6 +12,11 @@ const followingSchema = new mongoose.Schema({
   }
 });
 
-followingSchema.index({followingId: 1, followerId:1}, {unique: true});
+followingSchema.index({
+  followingId: 1,
+  followerId: 1
+}, {
+  unique: true
+});
 
 module.exports = mongoose.model('Following', followingSchema);

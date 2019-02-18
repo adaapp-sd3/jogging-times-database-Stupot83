@@ -28,7 +28,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // turn forms in requests to something we can work with:
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // serve everything in the public directory:
 app.use(express.static('public'));
@@ -40,7 +42,9 @@ app.set('view engine', 'handlebars');
 // create all the routes
 app.use(routes);
 
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASE, {
+  useNewUrlParser: true
+});
 mongoose.set('useCreateIndex', true);
 mongoose.Promise = global.Promise;
 mongoose.connection
@@ -52,6 +56,6 @@ mongoose.connection
   });
 
 // start the app!
-app.listen(port, function() {
+app.listen(port, function () {
   console.log('Server listening on http://localhost:' + port);
 });
