@@ -545,9 +545,11 @@ routes.get('/timeline', (req, res, next) => {
         userIdsToFind.push(person.followingId);
       });
 
+      userIdsToFind.push(req.cookies.userId);
+
       var usersFollowingSearchObject = {
         _id: {
-          $in: userIdsToFind
+          $in: userIdsToFind,
         }
       };
 
@@ -615,6 +617,10 @@ routes.get('/ranking', (req, res, next) => {
       peopleUserIsFollowing.forEach((person) => {
         userIdsToFind.push(person.followingId);
       });
+
+      userIdsToFind.push(req.cookies.userId);
+
+      console.log({userIdsToFind});
 
       var usersFollowingSearchObject = {
         _id: {

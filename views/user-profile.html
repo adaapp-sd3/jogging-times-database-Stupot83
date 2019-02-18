@@ -1,105 +1,81 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Jogger</title>
 
-    <!-- Tailwind.css is a CSS library. Read the docs here: -->
-    <!-- https://tailwindcss.com/docs/what-is-tailwind -->
-    <link rel="stylesheet" href="/tailwind.css" />
-  </head>
-  <body class="bg-grey">
-    <header class="fixed pin-x pin-t bg-grey-darker shadow text-white">
-      <div
-        class="mx-auto h-16 p-4 flex items-center justify-between"
-        style="width: 1000px"
-      >
-        <h2 class="p-4 uppercase bg-black border border-white">Jogger: Launchpad</h2>
-        <div>
-          Signed in as {{ user.name }} ({{ user.email }})
-          <a
-            href="/sign-out"
-            class="text-white bg-grey-darkest border border-white rounded p-2 no-underline hover:bg-black ml-4"
-          >
-            Sign Out
-          </a>
-        </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Jogger</title>
+
+  <!-- Tailwind.css is a CSS library. Read the docs here: -->
+  <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+  <link rel="stylesheet" href="/tailwind.css" />
+</head>
+
+<body class="bg-grey">
+  <header class="fixed pin-x pin-t bg-grey-darker shadow text-white">
+    <div class="mx-auto h-16 p-4 flex items-center justify-between" style="width: 1000px">
+      <h2 class="p-4 uppercase bg-black border border-white">Jogger: Launchpad</h2>
+      <div>
+        Signed in as {{ user.name }} ({{ user.email }})
+        <a href="/sign-out" class="text-white bg-grey-darkest border border-white rounded p-2 no-underline hover:bg-black ml-4">
+          Sign Out
+        </a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main
-      style="width: 1000px; height: auto;"
-      class="mx-auto mt-16 pt-4 flex flex-col justify-center "
-    >
-      <section class="flex items-center">
-        <div
-          class="m-4 p-6 rounded-lg bg-green-dark flex-1 shadow flex flex-col-reverse"
-        >
-        <a class="button no-underline rounded-full bg-transparent hover:bg-green"
-        href="/times">
+  <main style="width: 1000px; height: auto;" class="mx-auto mt-16 pt-4 flex flex-col justify-center ">
+    <section class="flex items-center">
+      <div class="m-4 p-6 rounded-lg bg-green-dark flex-1 shadow flex flex-col-reverse">
+        <a class="button no-underline rounded-full bg-transparent hover:bg-green" href="/times">
           <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
             Your Jogger Times
           </h3>
         </a>
-        </div>
+      </div>
 
-        <div
-          class="m-4 p-6 rounded-lg bg-orange-dark flex-1 shadow flex flex-col-reverse"
-        >
-        <a class="button no-underline rounded-full bg-transparent hover:bg-orange"
-          href="/members">
+      <div class="m-4 p-6 rounded-lg bg-orange-dark flex-1 shadow flex flex-col-reverse">
+        <a class="button no-underline rounded-full bg-transparent hover:bg-orange" href="/members">
           <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
             Members Of Jogger
           </h3>
         </a>
-        </div>
+      </div>
 
-        <div
-          class="m-4 p-6 rounded-lg bg-indigo flex-1 shadow flex flex-col-reverse"
-        >
-        <a class="button no-underline rounded-full bg-transparent hover:bg-indigo-light"
-        href="/friends">
+      <div class="m-4 p-6 rounded-lg bg-indigo flex-1 shadow flex flex-col-reverse">
+        <a class="button no-underline rounded-full bg-transparent hover:bg-indigo-light" href="/friends">
           <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
             Your Jogger Friends
           </h3>
         </a>
-        </div>
-      </section>
-      <section class="flex items-center">
-          <div
-            class="m-4 p-6 rounded-lg bg-blue flex-1 shadow flex flex-col-reverse"
-          >
-          <a class="button no-underline rounded-full bg-transparent hover:bg-blue-light"
-          href="/timeline">
-            <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
-              Jogger Timeline
-            </h3>
-          </a>
-          </div>
-  
-          <div
-            class="m-4 p-6 rounded-lg bg-teal flex-1 shadow flex flex-col-reverse"
-          >
-          <a class="button no-underline rounded-full bg-transparent hover:bg-teal-light"
-          href="/ranking">
-            <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
-              Jogger Ranking
-            </h3>
-          </a>
-          </div>
-  
-          <div
-            class="m-4 p-6 rounded-lg bg-red flex-1 shadow flex flex-col-reverse"
-          >
-          <a class="button no-underline rounded-full bg-transparent hover:bg-red-light"
-          href="/edit-account">
-            <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
-              Edit Account
-            </h3>
-          </a>
-          </div>
-        </section>
-        <img class="m-4" style="height: 500px" src="/Jogger.png"></img>
-    </main>
-  </body>
+      </div>
+    </section>
+    <section class="flex items-center">
+      <div class="m-4 p-6 rounded-lg bg-blue flex-1 shadow flex flex-col-reverse">
+        <a class="button no-underline rounded-full bg-transparent hover:bg-blue-light" href="/timeline">
+          <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
+            Jogger Timeline
+          </h3>
+        </a>
+      </div>
+
+      <div class="m-4 p-6 rounded-lg bg-teal flex-1 shadow flex flex-col-reverse">
+        <a class="button no-underline rounded-full bg-transparent hover:bg-teal-light" href="/ranking">
+          <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
+            Jogger Ranking
+          </h3>
+        </a>
+      </div>
+
+      <div class="m-4 p-6 rounded-lg bg-red flex-1 shadow flex flex-col-reverse">
+        <a class="button no-underline rounded-full bg-transparent hover:bg-red-light" href="/edit-account">
+          <h3 class="mt-6 mb-6 uppercase text-lg text-white text-center font-semibold">
+            Edit Account
+          </h3>
+        </a>
+      </div>
+    </section>
+    <img class="m-4" style="height: 500px" src="/Jogger.png"></img>
+  </main>
+</body>
+
 </html>

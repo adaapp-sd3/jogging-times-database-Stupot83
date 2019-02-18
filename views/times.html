@@ -1,138 +1,107 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Jogger</title>
 
-    <!-- Tailwind.css is a CSS library. Read the docs here: -->
-    <!-- https://tailwindcss.com/docs/what-is-tailwind -->
-    <link rel="stylesheet" href="/tailwind.css" />
-  </head>
-  <body class="bg-grey">
-    <header class="fixed pin-x pin-t bg-green shadow text-white">
-      <div
-        class="mx-auto h-16 p-5 flex items-center justify-between"
-        style="width: 1000px"
-      >
-        <h2 class="p-4 uppercase bg-green-dark border border-white">Jogger: Jog Times</h2>
-        <div>
-          Signed in as {{ user.name }} ({{ user.email }})
-          <a
-            href="/sign-out"
-            class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
-          >
-            Sign Out
-          </a>
-          <a
-            href="/user"
-            class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4"
-          >
-            Launchpad
-          </a>
-        </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Jogger</title>
+
+  <!-- Tailwind.css is a CSS library. Read the docs here: -->
+  <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+  <link rel="stylesheet" href="/tailwind.css" />
+</head>
+
+<body class="bg-grey">
+  <header class="fixed pin-x pin-t bg-green shadow text-white">
+    <div class="mx-auto h-16 p-5 flex items-center justify-between" style="width: 1000px">
+      <h2 class="p-4 uppercase bg-green-dark border border-white">Jogger: Jog Times</h2>
+      <div>
+        Signed in as {{ user.name }} ({{ user.email }})
+        <a href="/sign-out" class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Sign Out
+        </a>
+        <a href="/user" class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Launchpad
+        </a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main
-      style="width: 1000px; height: auto"
-      class="mx-auto mt-16 pt-4 flex flex-col justify-center "
-    >
+  <main style="width: 1000px; height: auto" class="mx-auto mt-16 pt-4 flex flex-col justify-center ">
     <section class="border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
     </section>
     <h2 class="ml-8 mr-8 text-center bg-green-lightest pt-4 pb-4 rounded-full">Your Jogger Stats</h2>
 
-    <section
-        class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
-      >
+    <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
     </section>
-    
-      <section class="flex items-center">
-        <div
-          class="m-8 p-6 rounded-lg bg-indigo-lightest flex-1 shadow flex flex-col-reverse"
-        >
-          <h3 class="uppercase text-sm text-indigo-light font-semibold">
-            Total Distance
-          </h3>
-          <div class="text-5xl text-indigo font-semibold">
-            {{ stats.totalDistance }}
-            <span class="text-grey-dark uppercase text-base -ml-2">km</span>
-          </div>
+
+    <section class="flex items-center">
+      <div class="m-8 p-6 rounded-lg bg-indigo-lightest flex-1 shadow flex flex-col-reverse">
+        <h3 class="uppercase text-sm text-indigo-light font-semibold">
+          Total Distance
+        </h3>
+        <div class="text-5xl text-indigo font-semibold">
+          {{ stats.totalDistance }}
+          <span class="text-grey-dark uppercase text-base -ml-2">km</span>
         </div>
+      </div>
 
-        <div
-          class="m-8 p-6 rounded-lg bg-blue-lightest flex-1 shadow flex flex-col-reverse"
-        >
-          <h3 class="uppercase text-sm text-blue-light font-semibold">
-            Total Time
-          </h3>
-          <div class="text-5xl text-blue font-semibold">
-            {{ stats.totalTime }}
-            <span class="text-grey-dark uppercase text-base -ml-2">hrs</span>
-          </div>
+      <div class="m-8 p-6 rounded-lg bg-blue-lightest flex-1 shadow flex flex-col-reverse">
+        <h3 class="uppercase text-sm text-blue-light font-semibold">
+          Total Time
+        </h3>
+        <div class="text-5xl text-blue font-semibold">
+          {{ stats.totalTime }}
+          <span class="text-grey-dark uppercase text-base -ml-2">hrs</span>
         </div>
+      </div>
 
-        <div
-          class="m-8 p-6 rounded-lg bg-teal-lightest flex-1 shadow flex flex-col-reverse"
-        >
-          <h3 class="uppercase text-sm text-teal-light font-semibold">
-            Average Speed
-          </h3>
-          <div class="text-5xl text-teal font-semibold">
-            {{ stats.avgSpeed }}
-            <span class="text-grey-dark uppercase text-base -ml-2">km/h</span>
-          </div>
+      <div class="m-8 p-6 rounded-lg bg-teal-lightest flex-1 shadow flex flex-col-reverse">
+        <h3 class="uppercase text-sm text-teal-light font-semibold">
+          Average Speed
+        </h3>
+        <div class="text-5xl text-teal font-semibold">
+          {{ stats.avgSpeed }}
+          <span class="text-grey-dark uppercase text-base -ml-2">km/h</span>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
+    <section class="border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
 
-      <h2 class="ml-8 mr-8 text-center bg-green-lightest pt-4 pb-4 rounded-full">Your Jogger Times</h2>
+    <h2 class="ml-8 mr-8 text-center bg-green-lightest pt-4 pb-4 rounded-full">Your Jogger Times</h2>
 
-      <section
-        class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"
-      >
-        <a
-          href="/times/new"
-          class="w-1/4 mt-4 mb-4 ml-10 mr-10 pt-8 pb-10 bg-green-dark shadow rounded-lg text-3xl text-white 
-          no-underline flex items-center justify-center text-center hover:bg-green-darkest"
-        >
-          Add new time
-        </a>
+    <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+      <a href="/times/new" class="w-1/4 mt-4 mb-4 ml-10 mr-10 pt-8 pb-10 bg-green-dark shadow rounded-lg text-3xl text-white 
+          no-underline flex items-center justify-center text-center hover:bg-green-darkest">
+        Add new time
+      </a>
 
-        {{#each times}}
-        <a
-          class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-5 bg-white shadow rounded-lg no-underline"
-          href="/times/{{ id }}"
-        >
-          <h3 class="text-green-dark uppercase text-base font-semibold">
-            {{ date }}
-          </h3>
-          <p class="text-blue font-semibold text-xl mt-2">
-            {{ distance }}
-            <span
-              class="uppercase text-sm text-grey-darker font-semibold -ml-1"
-            >
-              km
-            </span>
-            in {{ duration }}
-            <span
-              class="uppercase text-sm text-grey-darker font-semibold -ml-1"
-            >
-              hrs
-            </span>
-          </p>
-          <p class="text-purple text-xl mt-1">
-            Avg. speed: {{averageSpeed}}
-            <span
-              class="uppercase text-sm text-grey-darker font-semibold -ml-1"
-            >
-              km/hr
-            </span>
-          </p>
-        </a>
-        {{/each}}
-      </section>
-      <section class="border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
-    </main>
-  </body>
+      {{#each times}}
+      <a class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-5 bg-white shadow rounded-lg no-underline" href="/times/{{ id }}">
+        <h3 class="text-green-dark uppercase text-base font-semibold">
+          {{ date }}
+        </h3>
+        <p class="text-blue font-semibold text-xl mt-2">
+          {{ distance }}
+          <span class="uppercase text-sm text-grey-darker font-semibold -ml-1">
+            km
+          </span>
+          in {{ duration }}
+          <span class="uppercase text-sm text-grey-darker font-semibold -ml-1">
+            hrs
+          </span>
+        </p>
+        <p class="text-purple text-xl mt-1">
+          Avg. speed: {{averageSpeed}}
+          <span class="uppercase text-sm text-grey-darker font-semibold -ml-1">
+            km/hr
+          </span>
+        </p>
+      </a>
+      {{/each}}
+    </section>
+    <section class="border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
+  </main>
+</body>
+
 </html>

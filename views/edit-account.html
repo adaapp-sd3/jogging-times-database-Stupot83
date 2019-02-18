@@ -1,118 +1,92 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Jogger</title>
 
-    <!-- Tailwind.css is a CSS library. Read the docs here: -->
-    <!-- https://tailwindcss.com/docs/what-is-tailwind -->
-    <link rel="stylesheet" href="/tailwind.css" />
-  </head>
-  <body class="bg-grey">
-    <header class="fixed pin-x pin-t bg-red shadow text-white">
-      <div
-        class="mx-auto h-16 p-5 flex items-center justify-between"
-        style="width: 1000px"
-      >
-        <h2 class="p-4 uppercase bg-red-dark border border-white">Jogger - Account</h2>
-        <div>
-          Signed in as {{ user.name }} ({{ user.email }})
-          <a
-            href="/sign-out"
-            class="text-white bg-red-dark border border-white rounded p-2 no-underline hover:bg-green-darkest ml-4"
-          >
-            Sign Out
-          </a>
-          <a
-            href="/user"
-            class="text-white bg-red-dark border border-white rounded p-2 no-underline hover:bg-green-darkest ml-4"
-          >
-            Launchpad
-          </a>
-        </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Jogger</title>
+
+  <!-- Tailwind.css is a CSS library. Read the docs here: -->
+  <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+  <link rel="stylesheet" href="/tailwind.css" />
+</head>
+
+<body class="bg-grey">
+  <header class="fixed pin-x pin-t bg-red shadow text-white">
+    <div class="mx-auto h-16 p-5 flex items-center justify-between" style="width: 1000px">
+      <h2 class="p-4 uppercase bg-red-dark border border-white">Jogger - Account</h2>
+      <div>
+        Signed in as {{ user.name }} ({{ user.email }})
+        <a href="/sign-out" class="text-white bg-red-dark border border-white rounded p-2 no-underline hover:bg-green-darkest ml-4">
+          Sign Out
+        </a>
+        <a href="/user" class="text-white bg-red-dark border border-white rounded p-2 no-underline hover:bg-green-darkest ml-4">
+          Launchpad
+        </a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main class="mx-auto pt-4 flex flex-col justify-center">
+  <main class="mx-auto pt-4 flex flex-col justify-center">
 
-        <ol class="ml-8 mr-8 mt-16 bg-red-lightest pt-2 pb-2 pr-4">
-          
-          <li>If you want to change just your name, type the new name, leave your email as it is and reconfirm your existing password. Click Update Account to make effective and return to the Launchpad.</li>
-          <li>If you want to change just your email, type the new email, leave your name as it is and reconfirm your existing password. Click Update Account to make effective and return to the Launchpad.</li>  
-          <li>If you want to change your name and email, please type changes to both and reconfirm your existing password. Click Update Account to make effective and return to the Launchpad.</li> 
-          <li>If you want to change just your password, leave your name and email as they are and type a new password. Click Update Account to make effective and return to the Launchpad.</li>
-          <li>If you want to change your name and password, leave your email as it is and type changes to name and password. Click Update Account to make effective and return to the Launchpad.</li>
-          <li>If you want to change your email and password, leave your name as it is and type changes to email and password. Click Update Account to make effective and return to the Launchpad.</li>
-          <li>If you want to change all three, please type changes to all. Click Update Account to make effective and return to the Launchpad. </li>
-          <li class="font-bold">If you want to leave Jogger and delete your account permanently, please click Delete Account to make effective. You will be redirected to the sign-in page. 
-            Please note this action is not reversible and will mean full deletion of your account including jogger times, friends, stats and rankings. Think carefully before deleting your account.</li>
-          </ol>
+    <ol class="ml-8 mr-8 mt-16 bg-red-lightest pt-2 pb-2 pr-4">
 
-      <form
-        class="mx-auto m-4 shadow-lg items-center justify-center rounded-lg overflow-hidden w-1/5 bg-red"
-        method="POST"
-        action="/edit-account"
-      >
+      <li>If you want to change just your name, type the new name, leave your email as it is and reconfirm your
+        existing password. Click Update Account to make effective and return to the Launchpad.</li>
+      <li>If you want to change just your email, type the new email, leave your name as it is and reconfirm your
+        existing password. Click Update Account to make effective and return to the Launchpad.</li>
+      <li>If you want to change your name and email, please type changes to both and reconfirm your existing password.
+        Click Update Account to make effective and return to the Launchpad.</li>
+      <li>If you want to change just your password, leave your name and email as they are and type a new password.
+        Click Update Account to make effective and return to the Launchpad.</li>
+      <li>If you want to change your name and password, leave your email as it is and type changes to name and
+        password. Click Update Account to make effective and return to the Launchpad.</li>
+      <li>If you want to change your email and password, leave your name as it is and type changes to email and
+        password. Click Update Account to make effective and return to the Launchpad.</li>
+      <li>If you want to change all three, please type changes to all. Click Update Account to make effective and
+        return to the Launchpad. </li>
+      <li class="font-bold">If you want to leave Jogger and delete your account permanently, please click Delete
+        Account to make effective. You will be redirected to the sign-in page.
+        Please note this action is not reversible and will mean full deletion of your account including jogger times,
+        friends, stats and rankings. Think carefully before deleting your account.</li>
+    </ol>
 
-        {{#if errorMessage}}
+    <form class="mx-auto m-4 shadow-lg items-center justify-center rounded-lg overflow-hidden w-1/5 bg-red" method="POST"
+      action="/edit-account">
+
+      {{#if errorMessage}}
       <div class="bg-red-lightest text-red-dark p-4">{{ errorMessage }}</div>
       {{/if}}
 
-        <label class="m-4 block text-white">
-          Update Name
-          <input
-            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
-            type="text"
-            name="name"
-            value="{{ user.name }}"
-            required
-          />
-        </label>
+      <label class="m-4 block text-white">
+        Update Name
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="text" name="name" value="{{ user.name }}"
+          required />
+      </label>
 
-        <label class="m-4 block text-white">
-          Update Email Address
-          <input
-            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
-            type="email"
-            name="email"
-            value="{{ user.email }}"
-            required
-          />
-        </label>
+      <label class="m-4 block text-white">
+        Update Email Address
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="email" name="email" value="{{ user.email }}"
+          required />
+      </label>
 
-        <label class="m-4 block text-white">
-          Update Password
-          <input
-            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
-            type="password"
-            name="password"
-            required
-          />
-        </label>
+      <label class="m-4 block text-white">
+        Update Password
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="password" name="password" required />
+      </label>
 
-        <label class="m-4 block text-white">
-          Confirm Updated Password
-          <input
-            class="block rounded bg-grey-lightest p-2 mt-2 w-full"
-            type="password"
-            name="passwordConfirm"
-            required
-          />
-        </label>
+      <label class="m-4 block text-white">
+        Confirm Updated Password
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="password" name="passwordConfirm" required />
+      </label>
 
-        <button
-          type="submit"
-          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-darkest"
-        >
-          Update Account →
-        </button>
-      </form>
-    <a
-    href="/delete-account"
-    class="block no-underline w-auto mx-auto rounded-full bg-red text-white p-2 mb-4 hover:bg-red-darkest"
-        >
-          Delete Account →
-  </a>
-    </main>
-  </body>
+      <button type="submit" class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-darkest">
+        Update Account →
+      </button>
+    </form>
+    <a href="/delete-account" class="block no-underline w-auto mx-auto rounded-full bg-red text-white p-2 mb-4 hover:bg-red-darkest">
+      Delete Account →
+    </a>
+  </main>
+</body>
+
 </html>

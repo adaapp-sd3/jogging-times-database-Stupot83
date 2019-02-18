@@ -1,86 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Jog Times - Create Account</title>
 
-    <!-- Tailwind.css is a CSS library. Read the docs here: -->
-    <!-- https://tailwindcss.com/docs/what-is-tailwind -->
-    <link rel="stylesheet" href="/tailwind.css" />
-  </head>
-  <body>
-      <header class="fixed pin-x pin-t bg-purple shadow text-white">
-          <div class="mx-auto h-16 p-1 flex items-center justify-between" style="width: 1000px">
-            <h2>Jogger - Create Account</h2>
-          </div>
-        </header>
-    <main class="h-screen flex flex-col items-center justify-center ">
-      <form
-        class="m-4 shadow-lg rounded-lg overflow-hidden w-1/5"
-        method="POST"
-        action="/create-account"
-      >
-        <h1 class="text-2xl bg-grey-dark text-center text-white p-4">Create Account</h1>
+<head>
+  <meta charset="utf-8" />
+  <title>Jog Times - Create Account</title>
 
-        {{#if errorMessage}}
+  <!-- Tailwind.css is a CSS library. Read the docs here: -->
+  <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+  <link rel="stylesheet" href="/tailwind.css" />
+</head>
+
+<body class="bg-grey">
+  <header class="fixed pin-x pin-t bg-grey-darkest shadow text-white">
+    <div class="mx-auto h-16 p-1 flex items-center justify-between" style="width: 1000px">
+      <h2 class="p-4 uppercase bg-black border border-white">Jogger - Create Account</h2>
+    </div>
+  </header>
+  <main class="h-screen flex flex-col items-center justify-center ">
+    <form class="m-4 shadow-lg bg-grey-dark rounded-lg overflow-hidden w-1/5" method="POST" action="/create-account">
+      <h1 class="text-2xl bg-black text-center text-white p-4">Create Account</h1>
+
+      {{#if errorMessage}}
       <div class="bg-red-lightest text-red-dark p-4">{{ errorMessage }}</div>
       {{/if}}
 
-        <label class="m-4 block">
-          Name
-          <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
-            type="text"
-            name="name"
-            value="{{ name }}"
-            required
-          />
-        </label>
+      <label class="m-4 block">
+        Name
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="text" name="name" value="{{ name }}"
+          required />
+      </label>
 
-        <label class="m-4 block">
-          Email Address
-          <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
-            type="email"
-            name="email"
-            value="{{ email }}"
-            required
-          />
-        </label>
+      <label class="m-4 block">
+        Email Address
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="email" name="email" value="{{ email }}"
+          required />
+      </label>
 
-        <label class="m-4 block">
-          Password
-          <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
-            type="password"
-            name="password"
-            required
-          />
-        </label>
+      <label class="m-4 block">
+        Password
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="password" name="password" required />
+      </label>
 
-        <label class="m-4 block">
-          Confirm Password
-          <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
-            type="password"
-            name="passwordConfirm"
-            required
-          />
-        </label>
+      <label class="m-4 block">
+        Confirm Password
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="password" name="passwordConfirm" required />
+      </label>
 
-        <button
-          type="submit"
-          class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto"
-        >
-          Create Account →
-        </button>
-      </form>
+      <button type="submit" class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-darkest">
+        Create Account →
+      </button>
+    </form>
 
-      <a
-        href="/sign-in"
-        class="block mt-8 text-purple-light no-underline hover:underline"
-        >Already have a Jogger account? Sign in here</a
-      >
-    </main>
-  </body>
+    <a href="/sign-in" class="bg-indigo block mt-8 text-white p-4 rounded-full no-underline hover:bg-indigo-darkest">Already
+      have a Jogger account?
+      Sign in here</a>
+  </main>
+</body>
+
 </html>
