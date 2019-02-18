@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Jogger</title>
+
+  <!-- Tailwind.css is a CSS library. Read the docs here: -->
+  <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+  <link rel="stylesheet" href="/tailwind.css" />
+</head>
+
+<body class="bg-grey">
+  <header class="fixed pin-x pin-t bg-orange shadow text-white">
+    <div class="mx-auto h-16 p-5 flex items-center justify-between" style="width: 1000px">
+      <h2 class="p-4 uppercase bg-orange-dark border border-white">Jogger: Members</h2>
+      <div>
+        Signed in as {{ user.name }} ({{ user.email }})
+        <a href="/sign-out" class="text-white bg-orange-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Sign Out
+        </a>
+        <a href="/user" class="text-white bg-orange-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Launchpad
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main style="width: 1000px; height: auto" class="mx-auto mt-16 pt-4 flex flex-col justify-center ">
+    <section class="border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
+
+    <h2 class="ml-8 mr-8 text-center bg-orange-lightest pt-4 pb-4 rounded-full">Members you can follow</h2>
+
+    <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+      {{#each members}}
+      <div class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-5 bg-white shadow text-center rounded-lg text-black no-underline">
+        <h3 class="text-black pt-4 pb-4 bg-orange-lightest rounded-full uppercase text-base font-semibold">
+          {{ name }}
+        </h3>
+        <a class="block no-underline w-24 text-center rounded-full bg-orange-dark text-white p-2 mt-4 ml-auto hover:bg-orange-darkest"
+          href="/members/{{ id }}/follow">Follow
+        </a>
+      </div>
+      {{/each}}
+    </section>
+
+    <section class="border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
+
+    <h2 class="ml-8 mr-8 text-center bg-orange-lightest pt-4 pb-4 rounded-full">Members you are following</h2>
+
+    <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+      {{#each following}}
+      <div class="w-1/4 mt-4 mb-4 ml-10 mr-10 p-5 bg-white shadow text-center rounded-lg text-black no-underline">
+        <h3 class="text-black pt-4 pb-4 bg-orange-lightest rounded-full uppercase text-base font-semibold">
+          {{ name }}
+        </h3>
+        <a class="block no-underline w-24 text-center rounded-full bg-orange-dark text-white p-2 mt-4 ml-auto hover:bg-orange-darkest"
+          href="/members/{{ id }}/unfollow">Unfollow
+        </a>
+      </div>
+      {{/each}}
+    </section>
+    <section class="border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
+  </main>
+</body>
+
+</html>

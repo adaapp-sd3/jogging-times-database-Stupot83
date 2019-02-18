@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Jogger</title>
+
+  <!-- Tailwind.css is a CSS library. Read the docs here: -->
+  <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+  <link rel="stylesheet" href="/tailwind.css" />
+</head>
+
+<body class="bg-grey">
+  <header class="fixed pin-x pin-t bg-teal shadow text-white">
+    <div class="mx-auto h-16 p-5 flex items-center justify-between" style="width: 1000px">
+      <h2 class="p-4 uppercase bg-teal-dark border border-white">Jogger: Ranking</h2>
+      <div>
+        Signed in as {{ user.name }} ({{ user.email }})
+        <a href="/sign-out" class="text-white bg-teal-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Sign Out
+        </a>
+        <a href="/user" class="text-white bg-teal-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Launchpad
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main style="width: 1000px; height: auto" class="mx-auto mt-16 pt-4 flex flex-col justify-center ">
+
+    <section class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
+
+    <h2 class="ml-8 mr-8 text-center bg-teal-lightest pt-4 pb-4 rounded-full">Jogger Rankings</h2>
+
+    <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+
+      <div class="w-1/3">
+        <h3 class="pt-4 pb-4 rounded-full ml-8 mr-8 bg-indigo-lightest text-black text-center uppercase text-base font-semibold">Total
+          Distance Ladder
+        </h3>
+
+        {{#each sortedByDistance}}
+        <div class="w-64 mt-6 mb-4 ml-10 mr-10 p-2 bg-white shadow rounded-lg text-center text-black no-underline">
+          <h3 class="pt-4 pb-4 bg-indigo-lightest rounded-full text-black uppercase text-base font-bold">
+            {{ name }}
+          </h3>
+          <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+            <h3 class="mx-auto mb-4 uppercase text-sm text-center text-indigo font-semibold">
+              Total Distance
+            </h3>
+            <div class="mx-auto text-5xl text-indigo font-semibold">
+              {{ stats.totalDistance }}
+              <span class="text-grey-dark uppercase text-base -ml-2">km</span>
+            </div>
+            <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+            </section>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="w-1/3">
+        <h3 class="pt-4 pb-4 rounded-full ml-8 mr-8 bg-blue-lightest text-black text-center uppercase text-base font-semibold">Total
+          Time Ladder
+        </h3>
+        {{#each sortedByTime}}
+        <div class="w-64 mt-6 mb-4 ml-10 mr-10 p-2 bg-white shadow rounded-lg text-center text-black no-underline">
+          <h3 class="pt-4 pb-4 bg-blue-lightest rounded-full text-black uppercase text-base font-bold">
+            {{ name }}
+          </h3>
+          <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+            <h3 class="mx-auto mb-4 uppercase text-sm text-center text-blue font-semibold">
+              Total Jogging Time
+            </h3>
+            <div class="mx-auto text-5xl text-blue font-semibold">
+              {{ stats.totalTime }}
+              <span class="text-grey-dark uppercase text-base -ml-2">hrs</span>
+            </div>
+            <section class="flex flex-wrap border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+            </section>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="w-1/3">
+        <h3 class="pt-4 pb-4 rounded-full ml-8 mr-8 bg-teal-lightest text-black text-center uppercase text-base font-semibold">Average
+          Speed Ladder
+        </h3>
+        {{#each sortedByAverage}}
+        <div class="w-64 mt-6 mb-4 ml-10 mr-10 p-2 bg-white shadow rounded-lg text-center text-black no-underline">
+          <h3 class="pt-4 pb-4 bg-teal-lightest rounded-full text-black uppercase text-base font-bold">
+            {{ name }}
+          </h3>
+          <section class="flex flex-wrap border text-center border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6">
+            <h3 class="mx-auto mb-4 uppercase text-sm text-teal-light font-semibold">
+              Average Speed
+            </h3>
+            <div class="mx-auto text-5xl text-teal font-semibold">
+              {{ stats.avgSpeed }}
+              <span class="text-grey-dark uppercase text-base -ml-2">km/h</span>
+            </div>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+    <section class="text-center border border-grey-light border-l-0 border-r-0 border-b-0 mt-6 pt-6"></section>
+  </main>
+</body>
+
+</html>

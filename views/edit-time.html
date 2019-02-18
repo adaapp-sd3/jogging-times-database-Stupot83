@@ -1,86 +1,65 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Jog Times - Edit Time</title>
 
-    <!-- Tailwind.css is a CSS library. Read the docs here: -->
-    <!-- https://tailwindcss.com/docs/what-is-tailwind -->
-    <link rel="stylesheet" href="/tailwind.css" />
-  </head>
-  <body class="bg-grey-lightest">
-    <header class="fixed pin-x pin-t bg-purple shadow text-white">
-      <div
-        class="mx-auto h-16 p-4 flex items-center justify-between"
-        style="width: 800px"
-      >
-        <h2><a href="/times" class="text-white no-underline">Jog Times</a></h2>
-        <div>
-          Signed in as {{ user.name }} ({{ user.email }})
-          <a
-            href="/sign-out"
-            class="text-white border border-white rounded p-2 no-underline hover:bg-purple-light ml-4"
-          >
-            Sign Out
-          </a>
-        </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Jog Times - Edit Time</title>
+
+  <!-- Tailwind.css is a CSS library. Read the docs here: -->
+  <!-- https://tailwindcss.com/docs/what-is-tailwind -->
+  <link rel="stylesheet" href="/tailwind.css" />
+</head>
+
+<body class="bg-grey">
+  <header class="fixed pin-x pin-t bg-green shadow text-white">
+    <div class="mx-auto h-16 p-5 flex items-center justify-between" style="width: 1000px">
+      <h2 class="text-white uppercase no-underline p-4 bg-green-dark border border-white">Jogger - Edit Time</h2>
+      <div>
+        Signed in as {{ user.name }} ({{ user.email }})
+        <a href="/sign-out" class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Sign Out
+        </a>
+        <a href="/user" class="text-white bg-green-dark border border-white rounded-full p-2 no-underline hover:bg-green-darkest ml-4">
+          Launchpad
+        </a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main class="h-screen flex flex-col items-center justify-center">
-      <form
-        class="m-4 shadow-lg rounded-lg overflow-hidden w-64"
-        method="POST"
-        action="/times/{{ time.id }}"
-      >
-        <h1 class="text-2xl bg-grey-lighter p-4">Edit time</h1>
+  <main class="h-screen flex flex-col items-center justify-center">
+    <form class="m-4 shadow-lg rounded-lg overflow-hidden w-1/5 bg-green" method="POST" action="/times/{{ time.id }}">
+      <h1 class="text-2xl text-white p-4 bg-black text-center">Edit time</h1>
 
-        <label class="m-4 block">
-          Date
-          <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
-            type="datetime-local"
-            name="startTime"
-            value="{{ time.startTime }}"
-            required
-          />
-        </label>
+      {{#if errorMessage}}
+      <div class="bg-red-lightest text-red-dark p-4">{{ errorMessage }}</div>
+      {{/if}}
 
-        <label class="m-4 block">
-          Distance (km)
-          <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
-            type="number"
-            name="distance"
-            value="{{ time.distance }}"
-            required
-          />
-        </label>
+      <label class="m-4 block">
+        Date
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="datetime-local" name="startTime" value="{{ formattedStartTime }}"
+          required />
+      </label>
 
-        <label class="m-4 block">
-          Duration (hrs)
-          <input
-            class="block rounded bg-grey-lighter p-2 mt-2 w-full"
-            type="number"
-            name="duration"
-            value="{{ time.duration }}"
-            required
-          />
-        </label>
+      <label class="m-4 block">
+        Distance (km)
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="float" name="distance" value="{{ time.distance }}"
+          required />
+      </label>
 
-        <button
-          type="submit"
-          class="block w-auto rounded bg-purple text-white p-2 m-4 ml-auto"
-        >
-          Create Time →
-        </button>
-      </form>
-      <a
-        href="/times/{{ time.id }}/delete"
-        class="block mt-8 text-red-light no-underline hover:underline"
-      >
-        Delete time
-      </a>
-    </main>
-  </body>
+      <label class="m-4 block">
+        Duration (hrs)
+        <input class="block rounded bg-grey-lightest p-2 mt-2 w-full" type="float" name="duration" value="{{ time.duration }}"
+          required />
+      </label>
+
+      <button type="submit" class="block w-auto rounded-full bg-purple text-white p-2 m-4 ml-auto hover:bg-purple-darkest">
+        Update Time →
+      </button>
+    </form>
+    <a href="/times/{{ time.id }}/delete" class="block no-underline w-auto rounded-full bg-red text-white p-2 m-4 hover:bg-red-darkest">
+      Delete time →
+    </a>
+  </main>
+</body>
+
 </html>

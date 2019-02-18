@@ -1,133 +1,137 @@
-# Jogging Times App
+# Jogger App
 
-You've been hired to implement the backend and database for a new app that
-allows joggers to track their runs. A front-end developer has already created
-the UI for the app, but right now it's populated with dummy data - fake,
-hard-coded information to make it look right.
+The Jogger App allows the user to track their jogs by recording the date,
+time, distance and duration, and calculates their average speed. They can
+also see their updated total distance and total duration, and their average
+speed across all of their jogs.
 
-There's also code for a basic (and quiet insecure!) user login system.
+They also have the ability to search for other users of the Jogger App, where
+they can choose to follow their friends. This gives the user the option to view their friends jogs, and to see how they rank against their friends in areas such
+as total distance, total duration and average speed. They can also see which
+of their friends are following them and know that their friends can also see
+their jogs too.
 
-Your task is to implement the backend and database to allow the app to meet the
-following requirements:
+The task was to upgrade the existing frontend and to implement the backend
+and database to allow the Jogger app to meet the following requirements:
 
-- Users can create accounts with a name, email address, and password
+- Users can create new accounts with a name, email address, and password
 - User passwords are stored securely according to best practise
-- Users can log into their account
+- Users can log into their account through the sign-in page
 - Logged in users can log out of their account
-- The main page of the app shows:
-  - A set of statistics - total distance, total duration, and average speed
-    across all jogs
-  - A 'add new jogging time' button
-  - A list of every previous jogging time
-- Clicking on the 'add new jogging time' button takes the user to a form where
-  they can create jogging times
-- Clicking on an existing jogging time takes the user to a form where they can
-  edit or delete the time
-- Improve the general app security through e.g. form validations, revising the
-  login system, etc.
-
-Additional requirements (the UI for these has not been created yet):
-
-- Users can delete thier accounts
-- Users can follow other users
-- Users can see a list of the users they follow
-- Users can see a list of thier followers
-- Users can see a timeline of jog times from people they follow
-- Users can see a ranking of them compared to they follow - who has the fastest
-  speed, most distance, etc.
+- The main 'Launchpad' page of the app shows:
+  - The logged in user name and email at the top, and the option to sign out
+  - The option to click to view the users times
+  - The option to click to view members of the Jogger app
+  - The option to click to view the users friends on Jogger
+  - The option to click to view the timeline of jogs for the users friends
+  - The option to click to view the Jogger rankings page
+  - The option to click to view the edit account page
+- Jogger Times: here the user can view their total distance, total duration, and      average speed across all jogs
+  - They can view all of their existing Jogger times
+  - Add new times with the 'add new time' button: takes the user to a form where
+    they can create new Jogger times
+  - Clicking on an existing Jogger time takes the user to a form where they can
+    edit or delete the time
+- Members: here the user can see all the members of the Jogger app and
+  choose who they would like to follow
+  - As the user follows someone, they are populated into the followed list and
+    removed from the member list accordingly
+  - The user can also see a list of all the people they are following here and        choose to unfollow them here if necessary. This automatically removes
+    them from the followed list and populates them back into the member
+    list accordingly
+  - The code ensures the user is not able to see their own details and therefore
+    cannot follow themself
+- Friends: here the user can see a list of all the people they are following and
+  choose to unfollow them if necessary
+  - The user can also see a list of all the members of Jogger who have chosen to
+    follow them on the App
+- Timeline: here the user can view a list of all the people they are following
+  - For each person they are following, they will see an ordered timeline of the      jogs they have posted to the App to see what their friends are doing
+- Ranking: here the user is able to see how their stats rank against their friends    on the jogger app
+  - There is a total distance ranking ladder, which ranks the user and their          friends based on their total distance starting with the highest first
+  - There is a total duration ranking ladder, which ranks the user and their friends
+    based on their total duration starting with the highest first
+  - There is an average speed ranking ladder, which ranks the user and their friends
+    based on their average speed starting with the highest first
+- Edit Account: here the user has the option to edit their account details, or        delete their Jogger account altogether if deciding to 'jog on'
+  - The user can change their password, name and/or email and update account
+  - These changes are restricted so that someone cannot change to the same name and   email as an existing member of the Jogger App: e.g. there can be multiple John    Smith's but they must all have unique email addresses and vice versa. This        stops the same user details being replicated
+  - The user can delete their Jogger account, removing all of their account data      from the database
+- The Jogger app has various levels of security including hashed passwords for each   user, browser and server-side validation for any data inputted through forms, and   error-handling to ensure data is not replicated and there is therefore less         redundancy
 
 ## Getting Started
 
-To get started, fork the repo in GitHub. Then, clone it to your own computer.
-Run `npm install` to get all the dependencies set up. Run `npm start` to start
-the app.
+As the App was originally designed to work with SQL, I have reworked the setup to use MongoDB instead.
 
-> **Note:** running `npm start` will make the app automatically restart when you
+Before installing the app, you will need to make sure you follow these instructions:
+
+### MongoDB
+
+MongoDB is a document database which stores data in flexible, JSON-like documents. You will need to install Mongo locally. To do this, please visit the official download page at **https://www.mongodb.com/download-center/community** and
+download the correct version of the community server for your operating system. There’s a link to detailed, OS-specific installation instructions beneath every download link, which you can consult if you run into trouble.
+
+### MongoDB GUI
+
+You should also install Compass, the official GUI for MongoDB at **https://www.mongodb.com/download-center/compass**. This tool helps you
+visualize and manipulate the data, allowing you to interact with documents with full CRUD functionality.
+
+### Check Installed Correctly
+
+It is worth checking that you have node and npm installed and the version that your
+system is running. To check node is installed and the versioon you have, type:
+
+`node -v`
+
+and for npm type:
+
+`npm -v`
+
+This will output the version number of each program (`8.11.3` and `6.3.0` respectively at the time of writing).
+
+To check that your local installation of Mongo has worked and ther version, type:
+
+`mongo --version`
+
+This should output a bunch of information, including the version number (`4.0.3` at the time of writing).
+
+### Check Database Connection Using Compass
+
+Type the following command into a terminal:
+
+`mongod`
+
+Next, open Compass. You should be able to accept the defaults (server: localhost, port: 27017), press the CONNECT button, and establish a connection to the database server.
+
+Note that the databases `admin` and `local` are created automatically and can be ignored.
+
+### Install the App and Setup Dependencies
+
+To get the app installed, fork the repo in GitHub. Then, clone it to your own computer. Run `npm install` to get all the dependencies set up. This should add everythign that is needed to run the Jogger App locally, including mongoose which helps create the mongo database schemas for User, Time and Following.
+
+Mongoose Virtuals have been used for average speed of a time and for formatting the time as this data is derived and doesn't need to be stored. By using derived data from the database to calculate averages, totals etc, this reduces data redundancy.
+
+### Running the App
+
+Run `npm run watch` to start the app. Once you have created a user, you will be able to use the app and see it's various functionality from the frontend.
+
+> **Note:** running `npm run watch` will make the app automatically restart when you
 > make changes - no need to constantly stop and restart the server
 
-At first, the app probably won't run. You need to edit database.sqlite to add a
-`user` table.
+You can also use the Compass GUI to see the information that is being entered into the Mongo Database and how it changes when data is updated or deleted, or when you follow/unfollow a user for example. This confirms the backend functionality.
 
-## Important SQLite thing!!!
+When you have finished testing the app, you can also use the Compass GUI to drop the Users, Times and Followings collections when you are finished testing the app, or can drop the jogging-times-database-Stupot83 as a whole.
 
-When creating an auto-incrementing primary key, the syntax has to be:
+## Guide to existing and new code
 
-```sql
-CREATE TABLE my_table (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  ...
-);
-```
+### Key Files/Notes
 
-Note we user `INTEGER` instead of `INT` and `AUTOINCREMENT` instead of
-`AUTO_INCREMENT`.
-
-If you don't do this, your ids won't work properly.
-
-## Guide to existing code
-
-### Key Files
-
-- `models/User.js` - the User model class. Contains several static methods for
-  inserting and querying users from the database
-- `public/` - any files you put in here will get served publicly
-  - `public/tailwind.css` - a CSS framework used to style the app. See
-    https://tailwindcss.com/ for more information.
-- `views/` - a set of HTML pages for each part of our app. These use
-  [Handlebars](https://handlebarsjs.com/) to include our data in our HTML pages
-  - `views/create-account.html` - the template for the create account form
-  - `views/create-time.html` - the template for the create new jogging time form
-  - `views/edit-time.html` - the template for the edit jogging time form
-  - `views/list-times.html` - the template for the main page of the app, which
-    lists all jogging times
-  - `views/sing-in.html` - the template for the sign-in form
-- `database.js` - sets up the database. This uses
-  [better-sqlite3](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md)
-- `database.sqlite` - the database.
+- `public/tailwind.css` - a CSS framework used to style the app. See
+    https://tailwindcss.com/ for more information
+- `views/` - a set of HTML pages for each part of the app. These use
+  [Handlebars](https://handlebarsjs.com/) to include data in our HTML pages
 - `routes.js` - what to do for each route (method and URL) in the app
 - `server.js` - sets everything up and starts the app
-
-To implement all of the initial requirements, the only files you should need to
-touch are:
-
-- `models/` - this is where all our database interaction happens
-- `routes.js` - the brains of our app - what each page and form does
-- `database.sqlite` - you need to create the correct tables in here
-
-### Interacting with the database
-
-Whenever we need to interact with the database, we need to:
-
-1. (at the top of your file) load `database.js`
-2. (at the top of your file) prepare the SQL statement we want to run
-3. Execute the SQL statement
-
-Example:
-
-```js
-// load database.js
-var db = require('../path/to/database.js')
-
-// prepare the SQL statement we want to run
-var selectPetsByName = db.prepare('SELECT * FROM pets WHERE name = ?')
-
-// run the sql query. in each of the below examples, each argument replaces a ?.
-// this ? syntax lets us avoid SQL injections.
-
-// run the sql query, returning one row
-var row = selectPetsByName.get('rufus')
-
-// run the sql query, returning an array of all the rows
-var rows = selectPetsByName.all('rufus')
-
-// run the sql query, just returning nothing (apart from some info)
-var info = selectPetsByName.run('rufus')
-// when we're doing INSERTs, we can use this to find out what we INSERTed:
-var insertedId = info.lastInsertRowid
-```
-
-### Final note
-
-There's a lot of code here! Some of it is using libraries you've never
-encountered before, so you may need to do some research. If you get stuck,
-remember to ask a colleague or me!
+- `dataAccess/dataAccess.js` - file to set up all the methods to interact with the
+  mongo database. Includes inserts, finds, updates and deletes
+- Use of Mongoose to create schemas for mongo database for User, Time and             Following. Unique indexes used to prevent replicated data
+- App stores the data using mongodb, in the form of collections for Users, Times      and Followings

@@ -1,40 +1,61 @@
-var express = require('express')
-var morgan = require('morgan')
-var bodyParser = require('body-parser')
-var cookieParser = require('cookie-parser')
-var mustacheExpress = require('mustache-express')
-var expressHandlebars = require('express-handlebars')
-var routes = require('./routes')
+const dotenv = require('dotenv').config();
+const mongoose = require('mongoose');
+const User = require('./models/User');
+const Time = require('./models/Time');
+const Following = require('./models/Following');
+
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const mustacheExpress = require('mustache-express');
+const expressHandlebars = require('express-handlebars');
+const routes = require('./routes');
 
 // the port to listen on. choose whatever you want!
-var port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 // create a new express app:
-var app = express()
+const app = express();
 
 // set up logging on our app:
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 
 // turn JSON in requests to something we can work with:
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // let us set and retrieve cookies for user auth:
-app.use(cookieParser())
+app.use(cookieParser());
 
 // turn forms in requests to something we can work with:
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // serve everything in the public directory:
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 // use the mustache for rendering views:
-app.engine('html', expressHandlebars())
-app.set('view engine', 'handlebars')
+app.engine('html', expressHandlebars());
+app.set('view engine', 'handlebars');
 
 // create all the routes
-app.use(routes)
+app.use(routes);
+
+mongoose.connect(process.env.DATABASE, {
+  useNewUrlParser: true
+});
+mongoose.set('useCreateIndex', true);
+mongoose.Promise = global.Promise;
+mongoose.connection
+  .on('connected', () => {
+    console.log(`Mongoose connection open on ${process.env.DATABASE}`);
+  })
+  .on('error', (err) => {
+    console.log(`Connection error: ${err.message}`);
+  });
 
 // start the app!
-app.listen(port, function() {
-  console.log('Server listening on http://localhost:' + port)
-})
+app.listen(port, function () {
+  console.log('Server listening on http://localhost:' + port);
+});
