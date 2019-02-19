@@ -399,6 +399,19 @@ routes.get('/members', (req, res, next) => {
         };
 
         DataAccess.find(User, followedAlreadySearchObject, res, next, (following) => {
+
+          members.sort((a, b) => {
+            var nameA = a.name.toUpperCase();
+            var nameB = b.name.toUpperCase();
+            return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+          });
+
+          following.sort((a, b) => {
+            var nameA = a.name.toUpperCase();
+            var nameB = b.name.toUpperCase();
+            return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+          });
+
           res.render('members.html', {
             user: loggedInUser,
             members: members,
@@ -491,6 +504,18 @@ routes.get('/friends', (req, res, next) => {
           };
 
           DataAccess.find(User, followedUserSearchObject, res, next, (followed) => {
+
+            following.sort((a, b) => {
+              var nameA = a.name.toUpperCase();
+              var nameB = b.name.toUpperCase();
+              return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+            });
+
+            followed.sort((a, b) => {
+              var nameA = a.name.toUpperCase();
+              var nameB = b.name.toUpperCase();
+              return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+            });
 
             res.render('friends.html', {
               user: loggedInUser,
